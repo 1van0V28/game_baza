@@ -1,4 +1,5 @@
 export interface GameBase {
+	id: string,
 	imgURL: string,
 	title: string,
 	minPrice: number,
