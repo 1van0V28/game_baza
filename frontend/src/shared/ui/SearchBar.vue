@@ -30,7 +30,7 @@ defineEmits(["search_click"])
 	outline: none;
 	border: 4px solid var(--c_secondary2);
 	font-size: 1rem;
-	font-family: "Press Start 2P";
+	font-family: "Press Start 2P", sans-serif;
 	background-color: var(--c_card-bg);
 	color: var(--c_text);
 	transition: border-color 0.2s ease-in-out;
@@ -46,7 +46,7 @@ defineEmits(["search_click"])
 	border: none;
 	background-color: var(--c_secondary2-accent);
 	font-size: 1rem;
-	font-family: "Press Start 2P";
+	font-family: "Press Start 2P", sans-serif;
 	cursor: pointer;
 	transition: color 0.1s ease-out, scale 0.1s ease-out;
 }

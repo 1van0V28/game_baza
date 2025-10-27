@@ -10,11 +10,16 @@ export const searchGamesStore = {
 			gamesStore.setData(data)
 		}
 		catch (error) {
+			console.log(error)
 			const errorMessage = error instanceof Error ? error.message : String(error)
 			gamesStore.setError(errorMessage)
 		}
 		finally {
 			gamesStore.setIsPending(false)
 		}
+	},
+
+	resetData: () => {
+		gamesStore.setData(null)
 	}
 }

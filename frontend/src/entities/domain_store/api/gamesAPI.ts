@@ -1,13 +1,20 @@
-export const searchGameAPI = async (searchInput: string) => {
-	return fetch("", {
-		body: searchInput
-	})
+import type { GameBase } from "../model/Game"
+import { mockGames } from "./mockGames"
+
+
+export const searchGameAPI = async (searchInput: string): Promise<GameBase[]> => {
+	console.log("Запрос выполняется...")
+	return fetch(`/api/games?search=${searchInput}`)
 		.then((response) => {
 			if (!response.ok) {
 				throw new Error(`Ошибка searchGameAPI: ${response.status}`)
 			}
-			return response.json()
+			return new Promise<GameBase[]>((resolve) => { // тестирование получения карточек игр
+				setTimeout(() => resolve(mockGames), 4000)
+			}) 
 		})
-		.then((json) => json)
-		.catch((error) => { throw error })
+		.then((data) => data)
+		.catch((error) => {
+			throw error 
+		})
 }

@@ -12,37 +12,60 @@ import "../styles/fonts.css"
 :root {
   --h_header: 6.5rem;
 
+  --w_games_gallary__load_button: auto;
+
+  --fs_load_indicator: 2rem;
+
   --p_header: 0 2rem;
+  --p_games_gallary: 4rem;
 
   --gtc_header: 2fr 3fr 2fr;
+  --gtc_games_gallary: repeat(5, 1fr);
+
+  --gap_games_gallary: 2rem;
 
   --c_bg: #0B0D17;
   --c_card-bg: #1A1D2E;
-  --c_text: #E0E0E0;
+  --c_text: #F5F5F5;
   --c_placeholder: #7F7F7F;
   --c_accent: #009944;   /* тёмный зелёный неон */
   --c_accent2: #990044;  /* тёмная фуксия */
-  --c_highlight: #FAEF5D;
+  --c_highlight: #FFD700;
+  --c_highlight-accent: #FFCC33;
   --c_secondary: #006688; /* тёмный синий */
   --c_secondary2: #660099;
   --c_secondary2-accent: #9933CC;
+
+  	overflow-x: hidden;
+  	scrollbar-width: thin;
+  	scrollbar-color: var(--c_highlight-accent) var(--c_bg);
 }
 @media (max-width: 1024px) {
 	:root {
 		--h_header: 6rem;
 		
 		--p_header: 0 1.5rem;
+		--p_games_gallary: 3.5rem;
 
 		--gtc_header: 1fr 5fr 1fr;
+		--gtc_games_gallary: repeat(3, 1fr);
 	}
 }
 @media (max-width: 600px) {
 	:root {
 		--h_header: 5.5rem;
 
+		--w_games_gallary__load_button: 100%;
+
+		--fs_load_indicator: 1.5rem;
+
 		--p_header: 0 1rem;
+		--p_games_gallary: 1.5rem;
 
 		--gtc_header: 1fr 6fr;
+		--gtc_games_gallary: repeat(2, 1fr);
+
+		--gap_games_gallary: 1.5rem;
 	}
 }
 
@@ -53,6 +76,6 @@ import "../styles/fonts.css"
 	min-height: 100vh;
 	background-color: var(--c_bg);
 	font-family: "Press Start 2P", sans-serif;
+	color: var(--c_bg);
 }
-
 </style>
