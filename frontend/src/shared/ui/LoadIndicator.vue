@@ -1,8 +1,13 @@
+<script setup lang="ts">
+const props = defineProps<{ isShort: boolean }>()
+</script>
+
 <template>
 	<p class="loading_indicator">
-		Loading<span class="dot_1">.</span>
-			   <span class="dot_2">.</span>
-			   <span class="dot_3">.</span>
+		<template v-if="!props.isShort">Loading</template>
+		<span class="dot_1">.</span>					
+		<span class="dot_2">.</span>	     						
+		<span class="dot_3">.</span>
 	</p>
 </template>
 
@@ -10,6 +15,7 @@
 .loading_indicator {
 	--ad_loading: 1.2s;
 
+	display: inline;
 	font-size: var(--fs_load_indicator);
 	color: var(--c_secondary2);
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { gamesStore } from '@/entities/domain_store/stores/domainStores'
+import { gamesStore } from '@/entities/domain_stores/stores/domainStores'
 import { searchGamesStore } from '@/features/search_games/stores/searchGamesStore';
 import GamesCard from '@/features/search_games/ui/GamesCard.vue'
 import LoadIndicator from '@/shared/ui/LoadIndicator.vue'
@@ -15,7 +15,9 @@ import LoadIndicator from '@/shared/ui/LoadIndicator.vue'
 		</template>
 		
 		<div class="load_container">
-			<LoadIndicator v-if="gamesStore.isPending.value"/>
+			<div class="load_indicator" v-if="gamesStore.isPending.value">
+				<LoadIndicator :is-short="false"/>
+			</div>
 			<button v-else class="load_button" @click="() => { searchGamesStore.searchGame('') }">хочу ещё!</button>
 			<!-- <p class="load_message--over">GAMES OVER</p> -->
 		</div>
@@ -24,7 +26,6 @@ import LoadIndicator from '@/shared/ui/LoadIndicator.vue'
 
 <style scoped>
 .games_gallary {
-	padding: var(--p_games_gallary);
 	display: grid;
 	grid-template-columns: var(--gtc_games_gallary);
 	place-items: center;
@@ -41,8 +42,12 @@ import LoadIndicator from '@/shared/ui/LoadIndicator.vue'
 	height: auto;
 }
 
+.load_indicator,
 .load_button {
 	padding: calc(var(--fs_load_indicator) / 2) var(--fs_load_indicator);
+}
+
+.load_button {
 	width: var(--w_games_gallary__load_button);
 	border: none;
 	background-color: var(--c_highlight-accent);

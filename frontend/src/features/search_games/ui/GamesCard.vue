@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { GameBase } from '@/entities/domain_store/model/Game'
+import type { GameBase } from '@/entities/domain_stores/model/Game'
 
-const { game } = defineProps<{game: GameBase}>()
+const { game } = defineProps<{ game: GameBase }>()
 </script>
 
 <template>
@@ -14,8 +14,8 @@ const { game } = defineProps<{game: GameBase}>()
 			height="66.6%"
 			/>
 		<div class="info_container">
-			<p class="title">{{game.title}}</p>
-			<p>от<span class="min_price--highlight">{{game.minPrice}}₽</span></p>
+			<p class="title">{{ game.title }}</p>
+			<p>от<span class="min_price--highlight">{{ game.minPrice }}₽</span></p>
 		</div>
 	</div>
 </template>
