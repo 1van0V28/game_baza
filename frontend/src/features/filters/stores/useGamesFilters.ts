@@ -1,7 +1,8 @@
-import type { IGamesFiltersFeatureStore, GamesAvailableFiltersStore, GamesSelectedFilter } from "../interface/FiltersStore"
+import type { IGamesFiltersFeatureStore, GamesAvailableFiltersStore, GamesSelectedFilterUpdate } from "../interface/FiltersStore"
 import { useDomainStore } from "@/entities/domain_stores/lib/useDomainStore"
 import { fetchAvailableGamesFiltersAPI } from "@/entities/domain_stores/api/filtersAPI"
 import { searchGamesFiltersStore } from "./filtersStores"
+import { updateMultiSelectorValue } from "../lib/filtersUpdates"
 
 
 export const useGamesFilters = (): IGamesFiltersFeatureStore => {
@@ -29,8 +30,14 @@ export const useGamesFilters = (): IGamesFiltersFeatureStore => {
 		}
 	}
 
-	function applySelectedFilter(filter: GamesSelectedFilter) {
-		searchGamesFiltersStore.updateFilters(filter)
+	function applySelectedFilter(filter: GamesSelectedFilterUpdate) {
+		if (filter.name != "sort") {
+			const newModelValue = updateMultiSelectorValue(
+				searchGamesFiltersStore.filters.value[filter.name], 
+				{ value: filter.value, isActive: filter.isActive }
+			)
+			searchGamesFiltersStore.updateFilters({...filter, value: newModelValue})
+		}
 	}           
 
 	function resetSelectedFilters() {

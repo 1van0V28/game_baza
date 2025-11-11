@@ -16,11 +16,16 @@ export type GamesSelectedFiltersState = {
 }
 
 
-export type SelectedFilter<T extends SelectedFiltersStates = SelectedFiltersStates> = { 
-	[K in keyof T]: { name: K, value: T[K]}
+export type SelectedFilterUpdateFor<T extends SelectedFiltersStates, K extends keyof T> = 
+	T[K] extends Record<string, true> ? { name: K, value: string, isActive: boolean} :
+	T[K] extends string ? { name: K, value: string } :
+	never
+
+export type SelectedFilterUpdate<T extends SelectedFiltersStates = SelectedFiltersStates> = {
+	[K in keyof T]: SelectedFilterUpdateFor<T, K>
 }[keyof T]
 
-export type GamesSelectedFilter = SelectedFilter<GamesSelectedFiltersState>
+export type GamesSelectedFilterUpdate = SelectedFilterUpdate<GamesSelectedFiltersState>
 
 
 export type SelectedFiltersStore<T extends SelectedFiltersStates> = Partial<T>
@@ -30,7 +35,7 @@ export type GamesSelectedFiltersStore = SelectedFiltersStore<GamesSelectedFilter
 
 export interface IFiltersFeatureStore<
 	T extends AvailableFiltersStore,
-	K extends SelectedFilter
+	K extends SelectedFilterUpdate
 > {
 	availableFilters: Ref<T | null>,
 	fetchAvailableFilters: () => Promise<void>,
@@ -38,10 +43,10 @@ export interface IFiltersFeatureStore<
 	resetSelectedFilters: () => void
 }
 
-export type IGamesFiltersFeatureStore = IFiltersFeatureStore<GamesAvailableFiltersStore, GamesSelectedFilter>
+export type IGamesFiltersFeatureStore = IFiltersFeatureStore<GamesAvailableFiltersStore, GamesSelectedFilterUpdate>
 
 
-export interface FilterEmits<T extends SelectedFilter> {
+export interface FilterEmits<T extends SelectedFilterUpdate> {
 	updateFilter: (filter: T) => void,
 	resetFilters: () => void,
 	applyFilters?: () => void
