@@ -1,7 +1,7 @@
-<script setup lang="ts" generic="T extends AvailableFiltersStore, K extends SelectedFilter">
+<script setup lang="ts" generic="T extends AvailableFiltersStore, K extends SelectedFilterUpdate">
 import type { 
 	AvailableFiltersStore, 
-	SelectedFilter, 
+	SelectedFilterUpdate, 
 	IFiltersFeatureStore,
 	FilterEmits,
 } from '../interface/FiltersStore'

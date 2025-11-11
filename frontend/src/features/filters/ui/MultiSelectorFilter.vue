@@ -1,10 +1,9 @@
-<script setup lang="ts" generic="T extends string[], K extends SelectedFilter['name']">
+<script setup lang="ts" generic="T extends string[]">
 import LoadIndicator from '@/shared/ui/LoadIndicator.vue';
 import type { IMultiSelectorFilterProps } from '../interface/FilterUI'
 import { computed, ref } from 'vue'
-import type { SelectedFilter } from '../interface/FiltersStore'
 
-const props = defineProps<IMultiSelectorFilterProps<T, K>>()
+const props = defineProps<IMultiSelectorFilterProps<T>>()
 
 const selectedCount = computed(() => Object.keys(props.modelValue ?? {}).length)
 
@@ -13,22 +12,12 @@ const isActive = ref<boolean>(false)
 
 const handleLabelClick = () => { isActive.value = !isActive.value}
 
-const handleValueClick = (newValue: T[number]) => {
-	const newModelValue: Record<string, true> = props.modelValue 
-		? { ...props.modelValue } 
-		: {} as Record<string, true>
-
-	if (!newModelValue[newValue]) {
-		newModelValue[newValue] = true
-	} else {
-		delete newModelValue[newValue]
-	}
-
-	const filter = {
+const handleValueClick = (value: T[number]) => {
+	props.updateFilter({
 		name: props.name,
-		value: newModelValue
-	} as SelectedFilter // исправить приведение типа
-	props.updateFilter(filter)
+		value: value,
+		isActive: !props.modelValue?.[value] 
+	})
 }
 </script>
 
