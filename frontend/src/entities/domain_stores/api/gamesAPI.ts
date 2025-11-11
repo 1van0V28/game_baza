@@ -3,7 +3,7 @@ import { mockGames } from "./mockGames"
 
 
 export const searchGameAPI = async (searchInput: string): Promise<GameBase[]> => {
-	console.log("Запрос выполняется...")
+	console.log("searchGameAPI выполняется...")
 	return fetch(`/api/games?search=${searchInput}`)
 		.then((response) => {
 			if (!response.ok) {

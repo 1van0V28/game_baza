@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const searchInput = defineModel()
-const props = defineProps<{placeholder: string}>()
+const props = defineProps<{ placeholder: string }>()
 defineEmits(["search_click"])
 </script>
 

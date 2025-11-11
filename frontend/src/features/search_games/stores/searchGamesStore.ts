@@ -1,5 +1,5 @@
-import { searchGameAPI } from "@/entities/domain_store/api/gamesAPI"
-import { gamesStore } from "@/entities/domain_store/stores/domainStores"
+import { gamesStore } from "@/entities/domain_stores/stores/domainStores"
+import { searchGameAPI } from "@/entities/domain_stores/api/gamesAPI"
 
 
 export const searchGamesStore = {
