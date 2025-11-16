@@ -97,7 +97,7 @@ class SteamSpider(scrapy.Spider):
         return {
             "title": game.css(".title::text").get(),
             "price_original": prices_data["price_original"],
-            "discount": prices_data["discount"],
+            "discount_percent": prices_data["discount_percent"],
             "price_discount": prices_data["price_discount"],
             "image_url": game.css("div.search_capsule img::attr(src)").get(),
             "released": game.css(".search_released::text").get(default="").strip(),
@@ -150,6 +150,6 @@ class SteamSpider(scrapy.Spider):
 
         return {
             "price_original": price_original,
-            "discount": discount,
+            "discount_percent": discount,
             "price_discount": price_discount,
         }

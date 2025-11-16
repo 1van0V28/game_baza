@@ -3,14 +3,13 @@
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/items.html
 
-import scrapy
 from dataclasses import dataclass
 
 @dataclass
 class SteamGameItem:
     title: str
     price_original: str | None
-    discount: str| None
+    discount_percent: str| None
     price_discount: str| None
     image_url: str
     released: str
