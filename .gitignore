@@ -1,6 +1,11 @@
 # IDE
 .idea/
 
+# System
+__pycache__/
+*.pyc
+.env
+
 # Python environments
 backend/**/.venv/
 .python-version
@@ -9,7 +14,3 @@ backend/**/.venv/
 backend/**/*.jsonl
 backend/**/*.csv
 backend/**/*.xml
-
-# Python bytecode
-__pycache__/
-*.pyc
