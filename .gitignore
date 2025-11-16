@@ -1,16 +1,16 @@
 # IDE
 .idea/
 
-# Python environment
-parsers/.venv/
-.python-version
-
-# Scrapy output
-*.jsonl
-*.csv
-*.xml
-
 # System
 __pycache__/
 *.pyc
 .env
+
+# Python environments
+backend/**/.venv/
+.python-version
+
+# Scrapy output / data files
+backend/**/*.jsonl
+backend/**/*.csv
+backend/**/*.xml
