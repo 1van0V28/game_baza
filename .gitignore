@@ -1,0 +1,16 @@
+# IDE
+.idea/
+
+# Python environment
+parsers/.venv/
+.python-version
+
+# Scrapy output
+*.jsonl
+*.csv
+*.xml
+
+# System
+__pycache__/
+*.pyc
+.env
