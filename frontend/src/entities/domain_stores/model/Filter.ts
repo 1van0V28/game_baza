@@ -1,3 +1,8 @@
+export type AvailableFiltersStore<T extends AvailableFilterName = AvailableFilterName> = Record<T, string[]>
+
+export type GamesAvailableFiltersStore = AvailableFiltersStore<GamesAvailableFilterName>
+
+
 export type AvailableFilterName = | GamesAvailableFilterName
 
 export type GamesAvailableFilterName = | "genre" | "activation"

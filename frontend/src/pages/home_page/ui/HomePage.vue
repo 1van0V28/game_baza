@@ -2,6 +2,7 @@
 import HomeHeader from '@/widgets/header/ui/HomeHeader.vue'
 import GamesFiltersBlock from '@/widgets/gallary/ui/GamesFiltersBlock.vue'
 import GamesGallary from '@/widgets/gallary/ui/GamesGallary.vue'
+import { gamesStore } from '@/entities/domain_stores/stores/domainStores'
 </script>
 
 <template>
@@ -9,7 +10,7 @@ import GamesGallary from '@/widgets/gallary/ui/GamesGallary.vue'
 	<section class="games_catalog">
 		<h2 class="games_count">
 			КАТАЛОГ ИГР
-			<span class="games_count--highlight">128</span>
+			<span class="games_count--highlight">{{ gamesStore.data.value?.gamesCount ?? 0 }}</span>
 		</h2>
 
 		<GamesFiltersBlock/>
@@ -32,28 +33,5 @@ import GamesGallary from '@/widgets/gallary/ui/GamesGallary.vue'
 }
 .games_count--highlight {
 	color: var(--c_highlight-accent);
-}
-
-.filters_block {
-	display: grid;
-	grid-template-columns: var(--gtc_games_gallary);
-}
-
-.button_clear {
-	padding: 0.5rem;
-	background-color: transparent;
-	border: 4px solid var(--c_secondary2);
-	font-size: 1.25rem;
-	font-family: "Press Start 2P", sans-serif;
-	color: var(--c_secondary2);
-	cursor: pointer;
-	transition: color 0.1s ease-out, 
-				border-color 0.1s ease-out, 
-				transform 0.1s ease-out;
-}
-.button_clear:active {
-	color: var(--c_secondary2-accent);
-	border-color: var(--c_secondary2-accent);
-	transform: scale(0.9);
 }
 </style>
