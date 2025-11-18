@@ -1,10 +1,5 @@
-import type { AvailableFilterName, GamesAvailableFilterName } from "@/entities/domain_stores/model/Filter"
+import type { AvailableFiltersStore, GamesAvailableFiltersStore } from "@/entities/domain_stores/model/Filter"
 import type { Ref } from "vue"
-
-
-export type AvailableFiltersStore<T extends AvailableFilterName = AvailableFilterName> = Record<T, string[]>
-
-export type GamesAvailableFiltersStore = AvailableFiltersStore<GamesAvailableFilterName>
 
 
 export type SelectedFiltersStates = | GamesSelectedFiltersState
@@ -49,5 +44,7 @@ export type IGamesFiltersFeatureStore = IFiltersFeatureStore<GamesAvailableFilte
 export interface FilterEmits<T extends SelectedFilterUpdate> {
 	updateFilter: (filter: T) => void,
 	resetFilters: () => void,
-	applyFilters?: () => void
+	applyFilters?: () => void,
+	toggleFilter: (filterName: T["name"]) => void,
+	modelActive: Ref<Record<T["name"], true>>
 }

@@ -1,12 +1,12 @@
-import type { IGamesFiltersFeatureStore, GamesAvailableFiltersStore, GamesSelectedFilterUpdate } from "../interface/FiltersStore"
-import { useDomainStore } from "@/entities/domain_stores/lib/useDomainStore"
+import type { IGamesFiltersFeatureStore, GamesSelectedFilterUpdate } from "../interface/FiltersStore"
+import type { GamesAvailableFiltersStore } from "@/entities/domain_stores/model/Filter"
+import { availableFilters } from "@/entities/domain_stores/stores/domainStores"
 import { fetchAvailableGamesFiltersAPI } from "@/entities/domain_stores/api/filtersAPI"
 import { searchGamesFiltersStore } from "./filtersStores"
 import { updateMultiSelectorValue } from "../lib/filtersUpdates"
 
 
 export const useGamesFilters = (): IGamesFiltersFeatureStore => {
-	const availableFilters = useDomainStore<GamesAvailableFiltersStore>()
 
 	async function fetchAvailableFilters() {
 		availableFilters.setIsPending(true)
@@ -37,6 +37,8 @@ export const useGamesFilters = (): IGamesFiltersFeatureStore => {
 				{ value: filter.value, isActive: filter.isActive }
 			)
 			searchGamesFiltersStore.updateFilters({...filter, value: newModelValue})
+		} else {
+			searchGamesFiltersStore.updateFilters(filter)
 		}
 	}           
 

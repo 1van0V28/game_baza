@@ -1,29 +1,29 @@
 <script setup lang="ts" generic="T extends string[]">
-import type { IMultiSelectorFilterProps } from '../interface/FilterUI'
-import LoadIndicator from '@/shared/ui/LoadIndicator.vue';
+import type { IMonoSelectorFiltersProps } from '../interface/FilterUI'
 import { computed } from 'vue'
 
-const props = defineProps<IMultiSelectorFilterProps<T>>()
+const props = defineProps<IMonoSelectorFiltersProps<T>>()
 
-const selectedCount = computed(() => Object.keys(props.modelValue ?? {}).length)
 const isActive = computed(() => props.modelActive.value[props.name])
 
 const handleLabelClick = () => { props.toggleFilter(props.name) }
 
 const handleValueClick = (value: T[number]) => {
+	handleLabelClick()
+
 	props.updateFilter({
 		name: props.name,
-		value: value,
-		isActive: !props.modelValue?.[value] 
+		value: value
 	})
 }
 </script>
+
 
 <template>
 	<div class="selector_filter">
 		<div class="selector_label" @click="handleLabelClick">
 			<span>
-				{{ props.label }}<span v-if="selectedCount">:<span class="selector_label__count">{{selectedCount}}</span></span>
+				{{ props.modelValue }}
 			</span>
 			<span class="selector_label__arrow" :class="{ arrow_active: isActive }">
 				↓
@@ -35,7 +35,7 @@ const handleValueClick = (value: T[number]) => {
 				<template v-if="props.values">
 					<div 
 						class="selector_value"
-						:class="{ value_active: props.modelValue ? props.modelValue[value] : false}"
+						:class="{ value_active: props.modelValue == value}"
 						v-for="value in props.values" 
 						:key="value"
 						@click="() => { handleValueClick(value) }">
@@ -65,7 +65,7 @@ const handleValueClick = (value: T[number]) => {
 	justify-content: space-between;
 	width: 100%;
 	font-size: var(--fs_selector);
-	color: var(--c_text);
+	background-color: var(--c_text);
 	cursor: pointer;
 }
 

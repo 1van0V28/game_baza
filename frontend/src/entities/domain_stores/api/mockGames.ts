@@ -1,7 +1,7 @@
-import type { GameBase } from "../model/Game";
+import type { GameBase, GamesCatalogData } from "../model/Game"
 
 
-export const mockGames: GameBase[] = [
+const mockGames: GameBase[] = [
 	{
 		id: "5693a916-b56f-4a9e-bf37-9f9661e0eb32",
 		imgURL: "https://static.gabestore.ru/product/370x460_hdb6w328p5g6-MfBA2VWVCsuyB0FTFco.jpg",
@@ -75,3 +75,8 @@ export const mockGames: GameBase[] = [
 		minPrice: 3599       
 	},
 ]
+
+export const mockGamesData: GamesCatalogData = {
+	gamesCount: 924,
+	games: mockGames
+}

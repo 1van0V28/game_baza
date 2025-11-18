@@ -1,5 +1,8 @@
+import type { GamesCatalogData } from "../model/Game"
+import type { GamesAvailableFiltersStore } from "../model/Filter"
 import { useDomainStore } from "../lib/useDomainStore"
-import type { GameBase } from "../model/Game"
 
 
-export const gamesStore = useDomainStore<GameBase[]>()
+export const gamesStore = useDomainStore<GamesCatalogData>()
+
+export const availableFilters = useDomainStore<GamesAvailableFiltersStore>()

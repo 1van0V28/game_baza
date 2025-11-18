@@ -9,3 +9,9 @@ export interface GameFull extends GameBase {
 	genres: string[],
 	description: string
 }
+
+
+export interface GamesCatalogData {
+	gamesCount: number,
+	games: GameBase[]
+}

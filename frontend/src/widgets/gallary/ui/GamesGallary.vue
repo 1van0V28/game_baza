@@ -7,9 +7,9 @@ import LoadIndicator from '@/shared/ui/LoadIndicator.vue'
 
 <template>
 	<div class="games_gallary">
-		<template v-if="Array.isArray(gamesStore.data.value)">
+		<template v-if="gamesStore.data.value">
 			<GamesCard 
-				v-for="game in gamesStore.data.value"
+				v-for="game in gamesStore.data.value.games"
 				:key="game.id"
 				:game="game"/>
 		</template>

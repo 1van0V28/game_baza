@@ -1,30 +1,42 @@
 <script setup lang="ts" generic="T extends AvailableFiltersStore, K extends SelectedFilterUpdate">
-import type { 
-	AvailableFiltersStore, 
-	SelectedFilterUpdate, 
-	IFiltersFeatureStore,
-	FilterEmits,
-} from '../interface/FiltersStore'
+import type { AvailableFiltersStore } from '@/entities/domain_stores/model/Filter'
+import type { SelectedFilterUpdate, IFiltersFeatureStore, FilterEmits } from '../interface/FiltersStore'
+import { ref } from 'vue'
+import { getOpenedFiltersAuto, getOpenedFilters } from '../lib/filtersToggle'
 
 const props = defineProps<{ 
 	filtersFeatureStore: IFiltersFeatureStore<T, K>,
-	isAutoApply: boolean
+	isAutoApply: boolean,
+	isAutoClosed: boolean
 }>()
 
-const emit = defineEmits(["update", "reset", "apply"])
+const openedFilters = ref<Record<SelectedFilterUpdate["name"], true>>({} as Record<SelectedFilterUpdate["name"], true>)
+
+const emit = defineEmits(["apply"])
 
 const updateFilter = (filter: K) => {
 	if (props.isAutoApply) applyFilters()
 	props.filtersFeatureStore.applySelectedFilter(filter)
 }
 
-const resetFilters = () => { props.filtersFeatureStore.resetSelectedFilters() }
+const resetFilters = () => { 
+	props.filtersFeatureStore.resetSelectedFilters()
+	openedFilters.value = {} as Record<SelectedFilterUpdate["name"], true>
+}
 
 const applyFilters = () => { emit("apply") }
 
+const toggleFilter = (filterName: K["name"]) => { 
+	if (props.isAutoClosed) {
+		openedFilters.value = getOpenedFiltersAuto(openedFilters.value, filterName)
+	} else {
+		openedFilters.value = getOpenedFilters(openedFilters.value, filterName)
+	}
+}
+
 const filterEmits: FilterEmits<K> = props.isAutoApply
-	? { updateFilter, resetFilters }
-	: { updateFilter, resetFilters, applyFilters }
+	? { updateFilter, resetFilters, toggleFilter, modelActive: openedFilters }
+	: { updateFilter, resetFilters, applyFilters, toggleFilter, modelActive: openedFilters }
 </script>
 
 <template>

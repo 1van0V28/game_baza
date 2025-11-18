@@ -26,6 +26,7 @@ const handleSearch = () => {
 
 <style scoped>
 .header {
+	z-index: 10;
 	position: fixed;
 	padding: var(--p_header);
 	display: grid;

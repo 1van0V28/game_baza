@@ -4,7 +4,9 @@ import SelectorFilter from '@/features/filters/ui/MultiSelectorFilter.vue'
 import { useGamesFilters } from '@/features/filters/stores/useGamesFilters'
 import { searchGamesFiltersStore } from '@/features/filters/stores/filtersStores'
 import { searchGamesStore } from '@/features/search_games/stores/searchGamesStore'
+import { gamesMonoSelectors, gamesMultiSelectors } from '../definitions/filtersDefinitions'
 import { computed, onMounted } from 'vue'
+import MonoSelectorFilter from '@/features/filters/ui/MonoSelectorFilter.vue'
 
 const gamesFiltersStore = useGamesFilters()
 
@@ -23,24 +25,34 @@ onMounted(() => {
 <template>
 	<FiltersBlock 
 		:filters-feature-store="gamesFiltersStore"
-		:is-auto-apply="false" 
+		:is-auto-apply="false"
+		:is-auto-closed="true" 
 		@apply="handleFiltersApply">
 		<template #filters_list="{ filterEmits }">
 			<div class="filters_list">
-				<SelectorFilter 
-					:key="'genre'"
-					name="genre"
-					:values="gamesAvailableFilters?.genre"
-					:model-value="gamesSelectedFilters.genre"
-					:label="'Жанр'"
-					:update-filter="filterEmits.updateFilter"/>
-				<SelectorFilter 
-					:key="'activation'"
-					name="activation"
-					:values="gamesAvailableFilters?.activation"
-					:model-value="gamesSelectedFilters.activation"
-					:label="'Активация'"
-					:update-filter="filterEmits.updateFilter"/>
+				<MonoSelectorFilter v-for="filter in gamesMonoSelectors"
+					:key="filter.name"
+					:name="filter.name"
+					:values="filter.values"
+					:model-value="gamesSelectedFilters[filter.name]"
+					:model-active="filterEmits.modelActive"
+					:default-value="filter.defaultValue"
+					:reset-behavior="filter.resetBehavior"
+
+					:update-filter="filterEmits.updateFilter"
+					:toggle-filter="filterEmits.toggleFilter"/>
+				<SelectorFilter v-for="filter in gamesMultiSelectors"
+					:key="filter.name"
+					:name="filter.name"
+					:values="gamesAvailableFilters?.[filter.name]"
+					:model-value="gamesSelectedFilters[filter.name]"
+					:model-active="filterEmits.modelActive"
+					:label="filter.label"
+					:reset-behavior="filter.resetBehavior"
+					
+					:update-filter="filterEmits.updateFilter"
+					:toggle-filter="filterEmits.toggleFilter"
+					/>
 				<button @click="filterEmits.resetFilters" class="button_clear">Очистить</button>
 				<button @click="filterEmits.applyFilters" class="button_apply">Применить</button>
 			</div>
