@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import HomePage from '@/pages/home_page/ui/HomePage.vue'
 import "../styles/main.css"
 import "../styles/fonts.css"
 </script>
 
 <template>
-	<HomePage />
+	<RouterView />
 </template>
 
 <style>
@@ -13,26 +12,36 @@ import "../styles/fonts.css"
   --h_header: 6.5rem;
 
   --w_games_gallary__load_button: auto;
+  --w_game_info__button_scroll: fit-content;
+  --w_game_info__description: 75%;
 
   --fs_load_indicator: 2rem;
   --fs_filter_button: 1.25rem;
   --fs_selector: 1rem;
+  --fs_main_info: 2rem; 
+  --fs_genre_bar: 1rem;
 
   --p_header: 0 2rem;
   --p_games_catalog: 4rem;
   --p_selector: 0.5rem 1rem;
+  --p_game_page_container: 4rem 8rem;
+  --p_genre_bar: 0.5rem;
 
   --gc_button_clear: 4;
   --gc_button_apply: 5;
 
   --gtc_header: 2fr 3fr 2fr;
   --gtc_games_gallary: repeat(5, 1fr);
+  --gtc_game_info: 1fr 2fr 1fr;
 
   --gap_games_gallary: 2rem;
+  --gap_game_info: 2rem;
 
   --c_bg: #0B0D17;
   --c_card-bg: #1A1D2E;
+  --c_card-bg--accent: #2C3046;
   --c_text: #F5F5F5;
+  --c_text--muted: #C7C7C7;
   --c_placeholder: #7F7F7F;
   --c_accent: #009944;
   --c_accent2: #990044; 
@@ -51,16 +60,22 @@ import "../styles/fonts.css"
 		--h_header: 6rem;
 
 		--fs_filter_button: 1rem;
+		--fs_main_info: 1.5rem; 
+		--w_game_info__description: 100%;
 		
 		--p_header: 0 1.5rem;
 		--p_games_catalog: 3.5rem;
 		--p_selector: 0.5rem 0.5rem;
+		--p_game_page_container: 3.5rem 7rem;
 
 		--gc_button_clear: 2;
   		--gc_button_apply: 3;
 
 		--gtc_header: 1fr 5fr 1fr;
 		--gtc_games_gallary: repeat(3, 1fr);
+		--gtc_game_info: repeat(2, 1fr);
+
+		--gap_game_info: 1rem;
 	}
 }
 @media (max-width: 600px) {
@@ -68,19 +83,23 @@ import "../styles/fonts.css"
 		--h_header: 5.5rem;
 
 		--w_games_gallary__load_button: 100%;
+		--w_game_info__button_scroll: 100%;
 
 		--fs_load_indicator: 1.5rem;
-		--fs_selector: 0.8rem;
+		--fs_selector: 0.8rem; 
+		--fs_main_info: 1rem; 
 
 		--p_header: 0 1rem;
 		--p_games_catalog: 1.5rem;
 		--p_selector: 0.5rem 0.25rem;
+		--p_game_page_container: 1.5rem;
 
 		--gc_button_clear: 1;
   		--gc_button_apply: 2;
 
 		--gtc_header: 1fr 6fr;
 		--gtc_games_gallary: repeat(2, 1fr);
+		--gtc_game_info: 1fr;
 
 		--gap_games_gallary: 1.5rem;
 	}

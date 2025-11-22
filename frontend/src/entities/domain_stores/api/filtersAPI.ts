@@ -14,7 +14,5 @@ export const fetchAvailableGamesFiltersAPI = async (): Promise<GamesAvailableFil
 			})
 		})
 		.then((data) => data)
-		.catch((error) => { 
-			throw error
-		})
+		.catch((error) => { throw error })
 }

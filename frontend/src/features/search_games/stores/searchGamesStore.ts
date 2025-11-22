@@ -1,3 +1,4 @@
+import type { GameBase } from "@/entities/domain_stores/model/Game"
 import { gamesStore } from "@/entities/domain_stores/stores/domainStores"
 import { searchGameAPI } from "@/entities/domain_stores/api/gamesAPI"
 
@@ -21,5 +22,15 @@ export const searchGamesStore = {
 
 	resetData: () => {
 		gamesStore.setData(null)
+	},
+
+	getGameByID: (gameID: string): GameBase | undefined => {
+		const games = gamesStore.data.value?.games
+
+		if (!games) return
+
+		for (const game of games) {
+			if (game.id == gameID) return game
+		}
 	}
 }

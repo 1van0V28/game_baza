@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { gamesStore } from '@/entities/domain_stores/stores/domainStores'
-import { searchGamesStore } from '@/features/search_games/stores/searchGamesStore';
+import { searchGamesStore } from '@/features/search_games/stores/searchGamesStore'
 import GamesCard from '@/features/search_games/ui/GamesCard.vue'
 import LoadIndicator from '@/shared/ui/LoadIndicator.vue'
 </script>

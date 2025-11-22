@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="T extends string[]">
 import type { IMultiSelectorFilterProps } from '../interface/FilterUI'
-import LoadIndicator from '@/shared/ui/LoadIndicator.vue';
 import { computed } from 'vue'
+import LoadIndicator from '@/shared/ui/LoadIndicator.vue'
 
 const props = defineProps<IMultiSelectorFilterProps<T>>()
 

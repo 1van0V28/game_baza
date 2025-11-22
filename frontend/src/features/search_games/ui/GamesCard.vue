@@ -1,11 +1,19 @@
 <script setup lang="ts">
 import type { GameBase } from '@/entities/domain_stores/model/Game'
+import { useRouter } from 'vue-router'
+import { Routes } from '@/app/router'
 
 const { game } = defineProps<{ game: GameBase }>()
+
+const router = useRouter()
+
+const handleCardClick = () => {
+	router.push({ name: Routes.game, params: { gameID: game.id }})
+}
 </script>
 
 <template>
-	<div class="games_card">
+	<div @click="handleCardClick" class="games_card">
 		<img 
 			class="game_image"
 			alt="обложка игры"
@@ -35,6 +43,7 @@ const { game } = defineProps<{ game: GameBase }>()
 		0 0 6px rgba(255, 204, 51, 0.4);
 	background-color: var(--c_card-bg);
 	color: var(--c_text);
+	cursor: pointer;
 }
 
 .game_image {
