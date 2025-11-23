@@ -14,3 +14,4 @@ backend/**/.venv/
 backend/**/*.jsonl
 backend/**/*.csv
 backend/**/*.xml
+backend/**/.sql
