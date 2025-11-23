@@ -1,4 +1,4 @@
-from backend.config import config
+from backend.config.config import config
 from sqlalchemy import create_engine, text, MetaData
 from sqlalchemy.orm import sessionmaker
 
@@ -9,7 +9,4 @@ engine = create_engine(
     echo=True
 )
 
-session = sessionmaker(bind=engine)
-
-# with session() as session:
-#     session.
+SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
