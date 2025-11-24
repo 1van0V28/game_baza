@@ -10,3 +10,8 @@ engine = create_engine(
 )
 
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+
+def get_db():
+    """Генератор сессии для FastAPI Depends"""
+    with SessionLocal() as session:
+        yield session
