@@ -46,7 +46,7 @@ const isImageHidden = computed(() => (!gameInfo.value.imgURL && gameInfoStore.is
 					от<span class="min_price--highlight">{{ gameInfo.minPrice }}<TextSkeleton v-if="!gameInfo.minPrice" class="min_price__skeleton"/><span :class="{ min_price__value: !gameInfo.minPrice }">₽</span></span>
 				</div>
 
-				<button class="button_scroll">Смотреть предложения ↓</button>
+				<button class="button_scroll">Смотреть предложения<span class="button_scroll_arrow">↓</span></button>
 			</div>
 		</div>
 
@@ -219,13 +219,16 @@ const isImageHidden = computed(() => (!gameInfo.value.imgURL && gameInfoStore.is
 	border: none;
 	width: var(--w_game_info__button_scroll);
 	font-family: "Press Start 2P", sans-serif;
-	font-size: 0.9rem;
+	font-size: var(--fs_subtitle);
 	cursor: pointer;
 	transition: color 0.1s ease-out;
 	background-color: var(--c_highlight-accent);
 }
 .button_scroll:active {
 	color: var(--c_text)
+}
+.button_scroll_arrow {
+	padding: 0 0 0 calc(var(--fs_subtitle) / 2);
 }
 
 

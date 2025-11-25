@@ -63,7 +63,7 @@ const handleReadAllClick = () => { isActive.value = !isActive.value }
 	width: fit-content;
 	background-color: transparent;
 	color: var(--c_secondary2);
-	font-size: var(--fs_text);
+	font-size: calc(var(--fs_text) - 0.1rem);
 	font-family: "Press Start 2P", sans-serif;
 	cursor: pointer;
 	user-select: none;
