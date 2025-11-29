@@ -1,45 +1,31 @@
 <script setup lang="ts" generic="T extends string[]">
-import type { IMonoSelectorFiltersProps } from '../interface/FilterUI'
-import { computed } from 'vue'
+import type { UIMonoSelectorProps } from '../interface/FilterUI'
 import LoadIndicator from '@/shared/ui/LoadIndicator.vue'
 
-const props = defineProps<IMonoSelectorFiltersProps<T>>()
-
-const isActive = computed(() => props.modelActive.value[props.name])
-
-const handleLabelClick = () => { props.toggleFilter(props.name) }
-
-const handleValueClick = (value: T[number]) => {
-	handleLabelClick()
-
-	props.updateFilter({
-		name: props.name,
-		value: value
-	})
-}
+const props = defineProps<UIMonoSelectorProps<T>>()
 </script>
 
 
 <template>
 	<div class="selector_filter">
-		<div class="selector_label" @click="handleLabelClick">
+		<div class="selector_label" @click="props.handleLabelClick">
 			<span>
-				{{ props.modelValue }}
+				{{ props.modelValue ?? props.label }}
 			</span>
-			<span class="selector_label__arrow" :class="{ arrow_active: isActive }">
+			<span class="selector_label__arrow" :class="{ arrow_active: props.isActive }">
 				↓
 			</span>
 		</div>
 
 		<div class="selector_separator">
-			<div class="values_container" :class="{ container_active: isActive }">
+			<div class="values_container" :class="{ container_active: props.isActive }">
 				<template v-if="props.values">
 					<div 
 						class="selector_value"
 						:class="{ value_active: props.modelValue == value}"
 						v-for="value in props.values" 
 						:key="value"
-						@click="() => { handleValueClick(value) }">
+						@click="() => { props.handleValueClick(value) }">
 						{{ value }}
 					</div>
 				</template>

@@ -1,44 +1,30 @@
 <script setup lang="ts" generic="T extends string[]">
-import type { IMultiSelectorFilterProps } from '../interface/FilterUI'
-import { computed } from 'vue'
+import type { UIMultiSelectorProps } from '../interface/FilterUI'
 import LoadIndicator from '@/shared/ui/LoadIndicator.vue'
 
-const props = defineProps<IMultiSelectorFilterProps<T>>()
-
-const selectedCount = computed(() => Object.keys(props.modelValue ?? {}).length)
-const isActive = computed(() => props.modelActive.value[props.name])
-
-const handleLabelClick = () => { props.toggleFilter(props.name) }
-
-const handleValueClick = (value: T[number]) => {
-	props.updateFilter({
-		name: props.name,
-		value: value,
-		isActive: !props.modelValue?.[value] 
-	})
-}
+const props = defineProps<UIMultiSelectorProps<T>>()
 </script>
 
 <template>
 	<div class="selector_filter">
-		<div class="selector_label" @click="handleLabelClick">
+		<div class="selector_label" @click="props.handleLabelClick">
 			<span>
-				{{ props.label }}<span v-if="selectedCount">:<span class="selector_label__count">{{selectedCount}}</span></span>
+				{{ props.label }}<span v-if="props.selectedCount">:<span class="selector_label__count">{{ props.selectedCount }}</span></span>
 			</span>
-			<span class="selector_label__arrow" :class="{ arrow_active: isActive }">
+			<span class="selector_label__arrow" :class="{ arrow_active: props.isActive }">
 				↓
 			</span>
 		</div>
 
 		<div class="selector_separator">
-			<div class="values_container" :class="{ container_active: isActive }">
+			<div class="values_container" :class="{ container_active: props.isActive }">
 				<template v-if="props.values">
 					<div 
 						class="selector_value"
 						:class="{ value_active: props.modelValue ? props.modelValue[value] : false}"
 						v-for="value in props.values" 
 						:key="value"
-						@click="() => { handleValueClick(value) }">
+						@click="() => { props.handleValueClick(value) }">
 						{{ value }}
 					</div>
 				</template>

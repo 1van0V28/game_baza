@@ -1,33 +1,9 @@
-import { type GamesFiltersDefinition, type GamesMonoSelectorsDefinition, type GamesMultiSelectorsDefinition, ResetBehavior } from "@/features/filters/interface/FilterUI"
-
-
-export const gamesFiltersDefinition: GamesFiltersDefinition[] = [
-	{
-		name: "sort",
-		values: [
-			"popularity",
-			"cheap",
-			"expensive",
-			"sale",
-			"release_date",
-			"addition_date",
-			"alphabet",
-			"rating"
-		],
-		defaultValue: "popularity",
-		resetBehavior: ResetBehavior.ToDefault
-	},
-	{
-		name: "genre",
-		label: "Жанр",
-		resetBehavior: ResetBehavior.Clear
-	},
-	{
-		name: "activation",
-		label: "Активация",
-		resetBehavior: ResetBehavior.Clear
-	}
-]
+import { 
+	ResetBehavior, 
+	type GamesMonoSelectorsDefinition, 
+	type GamesMultiSelectorsDefinition,
+	type GamesFiltersDefinition, 
+} from "@/features/filters/interface/FilterDefinition"
 
 
 export const gamesMonoSelectors: GamesMonoSelectorsDefinition[] = [
@@ -48,7 +24,6 @@ export const gamesMonoSelectors: GamesMonoSelectorsDefinition[] = [
 	},
 ]
 
-
 export const gamesMultiSelectors: GamesMultiSelectorsDefinition[] = [
 	{
 		name: "genre",
@@ -60,4 +35,9 @@ export const gamesMultiSelectors: GamesMultiSelectorsDefinition[] = [
 		label: "Активация",
 		resetBehavior: ResetBehavior.Clear
 	}
+]
+
+export const gamesFiltersDefinition: GamesFiltersDefinition[][] = [
+	gamesMonoSelectors,
+	gamesMultiSelectors
 ]

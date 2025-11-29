@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import FiltersBlock from '@/features/filters/wrap/FiltersBlock.vue'
-import SelectorFilter from '@/features/filters/ui/MultiSelectorFilter.vue'
+import GamesMonoSelectorFilter from '../filters/GamesMonoSelectorFilter.vue'
+import GamesMultiSelectorFilter from '../filters/GamesMultiSelectorFilter.vue'
 import { useGamesFilters } from '@/features/filters/stores/useGamesFilters'
 import { searchGamesFiltersStore } from '@/features/filters/stores/filtersStores'
 import { searchGamesStore } from '@/features/search_games/stores/searchGamesStore'
 import { gamesMonoSelectors, gamesMultiSelectors } from '../definitions/filtersDefinitions'
 import { computed, onMounted } from 'vue'
-import MonoSelectorFilter from '@/features/filters/ui/MonoSelectorFilter.vue'
 
 const gamesFiltersStore = useGamesFilters()
 
@@ -30,7 +30,7 @@ onMounted(() => {
 		@apply="handleFiltersApply">
 		<template #filters_list="{ filterEmits }">
 			<div class="filters_list">
-				<MonoSelectorFilter v-for="filter in gamesMonoSelectors"
+				<GamesMonoSelectorFilter v-for="filter in gamesMonoSelectors"
 					:key="filter.name"
 					:name="filter.name"
 					:values="filter.values"
@@ -40,8 +40,10 @@ onMounted(() => {
 					:reset-behavior="filter.resetBehavior"
 
 					:update-filter="filterEmits.updateFilter"
-					:toggle-filter="filterEmits.toggleFilter"/>
-				<SelectorFilter v-for="filter in gamesMultiSelectors"
+					:toggle-filter="filterEmits.toggleFilter"
+					/>
+				
+				<GamesMultiSelectorFilter v-for="filter in gamesMultiSelectors"
 					:key="filter.name"
 					:name="filter.name"
 					:values="gamesAvailableFilters?.[filter.name]"
@@ -53,6 +55,7 @@ onMounted(() => {
 					:update-filter="filterEmits.updateFilter"
 					:toggle-filter="filterEmits.toggleFilter"
 					/>
+					
 				<button @click="filterEmits.resetFilters" class="button_clear">Очистить</button>
 				<button @click="filterEmits.applyFilters" class="button_apply">Применить</button>
 			</div>
@@ -81,7 +84,7 @@ onMounted(() => {
 }
 
 .button_clear {
-	grid-column: var(--gc_button_clear);
+	grid-column: var(--gc_games__button_clear);
 	grid-row: 1;
 	background-color: transparent;
 	color: var(--c_secondary2);

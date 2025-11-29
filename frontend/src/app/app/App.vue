@@ -29,7 +29,8 @@ import "../styles/fonts.css"
   --p_genre_bar: 0.5rem;
   --p_game_offers: 1rem 1.5rem;
 
-  --gc_button_clear: 4;
+  --gc_games__button_clear: 4;
+  --gc_game_offers__button_clear: 5;
   --gc_button_apply: 5;
 
   --gtc_header: 2fr 3fr 2fr;
@@ -77,7 +78,8 @@ import "../styles/fonts.css"
 		--p_game_page_container: 3.5rem 7rem;
 		--p_game_offers: 0.75rem 1.25rem;
 
-		--gc_button_clear: 2;
+		--gc_games__button_clear: 2;
+		--gc_game_offers__button_clear: 3;
   		--gc_button_apply: 3;
 
 		--gtc_header: 1fr 5fr 1fr;
@@ -109,7 +111,8 @@ import "../styles/fonts.css"
 		--p_game_page_container: 1.5rem;
 		--p_game_offers: 0.5rem;
 
-		--gc_button_clear: 1;
+		--gc_games__button_clear: 1;
+		--gc_game_offers__button_clear: 2;
   		--gc_button_apply: 2;
 
 		--gtc_header: 1fr 6fr;

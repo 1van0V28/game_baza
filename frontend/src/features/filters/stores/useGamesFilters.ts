@@ -2,8 +2,8 @@ import type { IGamesFiltersFeatureStore, GamesSelectedFilterUpdate } from "../in
 import type { GamesAvailableFiltersStore } from "@/entities/domain_stores/model/Filter"
 import { availableFilters } from "@/entities/domain_stores/stores/domainStores"
 import { fetchAvailableGamesFiltersAPI } from "@/entities/domain_stores/api/filtersAPI"
-import { searchGamesFiltersStore } from "./filtersStores"
 import { updateMultiSelectorValue } from "../lib/filtersUpdates"
+import { searchGamesFiltersStore } from "./filtersStores"
 
 
 export const useGamesFilters = (): IGamesFiltersFeatureStore => {

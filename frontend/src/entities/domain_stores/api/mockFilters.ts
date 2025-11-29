@@ -1,4 +1,4 @@
-import type { GamesAvailableFilter } from "../model/Filter"
+import type { GamesAvailableFilter, GameOffersAvailableFilter } from "../model/Filter"
 
 
 export const gamesFilters: GamesAvailableFilter[] = [
@@ -35,6 +35,29 @@ export const gamesFilters: GamesAvailableFilter[] = [
 			"Steam",
 			"Ubisoft Connect",
 			"CTC"
+		]
+	}
+]
+
+export const gameOffersFilters: GameOffersAvailableFilter[] = [
+	{
+		name: "store",
+		values: [
+			"Steam",
+			"Epic Games Store",
+			"GOG.com",
+			"VK Play"
+		]
+	},
+	{
+		name: "platform",
+		values: [
+			"PC",
+			"PS4",
+			"PS5",
+			"Nintento Switch",
+			"XBOX ONE",
+			"XBOX Series"
 		]
 	}
 ]

@@ -1,32 +1,36 @@
-<script setup lang="ts" generic="T extends AvailableFiltersStore, K extends SelectedFilterUpdate">
-import type { AvailableFiltersStore } from '@/entities/domain_stores/model/Filter'
-import type { SelectedFilterUpdate, IFiltersFeatureStore, FilterEmits } from '../interface/FiltersStore'
-import { ref } from 'vue'
+<script setup lang="ts" generic="T extends SelectedFiltersStates">
+import type { 
+	SelectedFiltersStates,
+	IBaseFiltersFeatureStore, 
+	SelectedFilterUpdate, 
+	FilterEmits
+} from '../interface/FiltersStore'
+import { shallowRef } from 'vue'
 import { getOpenedFiltersAuto, getOpenedFilters } from '../lib/filtersToggle'
 
 const props = defineProps<{ 
-	filtersFeatureStore: IFiltersFeatureStore<T, K>,
+	filtersFeatureStore: IBaseFiltersFeatureStore<T>,
 	isAutoApply: boolean,
 	isAutoClosed: boolean
 }>()
 
-const openedFilters = ref<Record<SelectedFilterUpdate["name"], true>>({} as Record<SelectedFilterUpdate["name"], true>)
+const openedFilters = shallowRef<Record<SelectedFilterUpdate<T>["name"], true>>({} as Record<SelectedFilterUpdate<T>["name"], true>)
 
 const emit = defineEmits(["apply"])
 
-const updateFilter = (filter: K) => {
+const updateFilter = (filter: SelectedFilterUpdate<T>) => {
 	if (props.isAutoApply) applyFilters()
 	props.filtersFeatureStore.applySelectedFilter(filter)
 }
 
 const resetFilters = () => { 
 	props.filtersFeatureStore.resetSelectedFilters()
-	openedFilters.value = {} as Record<SelectedFilterUpdate["name"], true>
+	openedFilters.value = {} as Record<SelectedFilterUpdate<T>["name"], true>
 }
 
 const applyFilters = () => { emit("apply") }
 
-const toggleFilter = (filterName: K["name"]) => { 
+const toggleFilter = (filterName: SelectedFilterUpdate<T>["name"]) => { 
 	if (props.isAutoClosed) {
 		openedFilters.value = getOpenedFiltersAuto(openedFilters.value, filterName)
 	} else {
@@ -34,7 +38,7 @@ const toggleFilter = (filterName: K["name"]) => {
 	}
 }
 
-const filterEmits: FilterEmits<K> = props.isAutoApply
+const filterEmits: FilterEmits<T> = props.isAutoApply
 	? { updateFilter, resetFilters, toggleFilter, modelActive: openedFilters }
 	: { updateFilter, resetFilters, applyFilters, toggleFilter, modelActive: openedFilters }
 </script>

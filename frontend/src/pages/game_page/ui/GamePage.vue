@@ -1,12 +1,13 @@
 <script setup lang="ts">
+import type { Offer } from '@/entities/domain_stores/model/Offer'
 import { useGameInfo } from '@/features/game_info/stores/useGameInfo'
-import { onMounted, ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { gamePreview } from '@/features/game_info/stores/gamePreview'
+import { mockOffersData } from '@/entities/domain_stores/api/mockOffers'
 import HomeHeader from '@/widgets/header/ui/HomeHeader.vue'
 import GameInfo from '@/widgets/game_info/ui/GameInfo.vue'
+import GameOffersFiltersBlock from '@/widgets/game_offers/ui/GameOffersFiltersBlock.vue'
 import GameOffers from '@/widgets/game_offers/ui/GameOffers.vue'
-import type { Offer } from '@/entities/domain_stores/model/Offer'
-import { mockOffersData } from '@/entities/domain_stores/api/mockOffers'
 
 const props = defineProps<{ gameID: string }>()
 
@@ -29,7 +30,8 @@ onMounted(async () => {
 	<div class="page_container">
 		<GameInfo />
 		<section>
-			<h1>ПРЕДЛОЖЕНИЯ</h1>
+			<h1 class="game_offers_title">ПРЕДЛОЖЕНИЯ</h1>
+			<GameOffersFiltersBlock/>
 			<GameOffers :offers="gameOffers"/>
 		</section>
 	</div>
@@ -38,5 +40,11 @@ onMounted(async () => {
 <style scoped>
 .page_container {
 	padding: var(--p_game_page_container);
+}
+
+.game_offers_title {
+	padding: var(--p_games_catalog) 0 1.5rem;
+	font-size: 2rem;
+	color: var(--c_highlight-accent);
 }
 </style>
