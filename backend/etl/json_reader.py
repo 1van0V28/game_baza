@@ -1,7 +1,5 @@
 import json
 
-STORE_NAME = "Steam"
-BATCH_SIZE = 50  # коммит каждые N записей
 
 class JsonReader:
     def __init__(self, path):

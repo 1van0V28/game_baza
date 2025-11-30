@@ -10,7 +10,6 @@ class DataType(Enum):
     GAMES = "games"
     OFFERS = "offers"
 
-
 class JsonImporter:
     """Импортирует данные игр из JSON в БД."""
 
