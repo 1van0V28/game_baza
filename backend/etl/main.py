@@ -1,3 +1,4 @@
+# backend/etl/main.py
 from pathlib import Path
 from backend.database.connection import SessionLocal
 from backend.etl.json_loader.json_loader import JsonLoader
@@ -8,7 +9,7 @@ from backend.etl.deduplicator.deduplicator import Deduplicator
 BASE_DIR = Path(__file__).resolve().parent
 PARSERS_DIR = BASE_DIR.parent / "parsers"
 
-GAMES_JSONL_PATH = BASE_DIR / "deduplicator" / "games.jsonl"
+GAMES_JSONL_PATH = BASE_DIR  / "games.jsonl"
 STEAM_JSONL_PATH = PARSERS_DIR / "steam_games.jsonl"
 GABESTORE_JSONL_PATH = PARSERS_DIR / "gabestore_games.jsonl"
 STEAMBUY_JSONL_PATH = PARSERS_DIR / "steambuy_games.jsonl"
