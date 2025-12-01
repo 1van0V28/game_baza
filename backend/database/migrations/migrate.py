@@ -1,4 +1,5 @@
-from api.database.connection import engine, Base
+from backend.database.connection import engine
+from backend.database.models import Base
 
 
 def run_migration():

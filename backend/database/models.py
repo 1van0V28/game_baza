@@ -1,11 +1,12 @@
-from sqlalchemy import Table, Column, Integer, String, Text, ForeignKey, Date, Numeric, Boolean
-from sqlalchemy.orm import Mapped, mapped_column, relationship, DeclarativeBase
+from sqlalchemy import Table, Column, Integer, String, Text, ForeignKey, Date, MetaData
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import date
 from sqlalchemy.ext.declarative import as_declarative
 
 @as_declarative()
 class Base(object):
     id = Column(Integer, autoincrement=True, primary_key=True)
+    metadata = MetaData()
 
 # Связующие таблицы many-to-many
 genres_games = Table(
