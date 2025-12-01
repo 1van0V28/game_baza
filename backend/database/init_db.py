@@ -10,7 +10,8 @@ from backend.database.connection import get_db
 def create_tables():
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
-    seed_stores(get_db())
+    with get_db() as session:
+        seed_stores(session)
 
     # with open(SCHEMA_PATH, "w", encoding="utf-8") as f:
     #     for table in Base.metadata.sorted_tables:
