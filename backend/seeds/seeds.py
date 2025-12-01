@@ -2,11 +2,11 @@ from backend.database.models import Store
 
 def seed_stores(session):
     stores = [
-        {"id": 1, "name": "Steam"},
-        {"id": 2, "name": "Gabe Store"},
-        {"id": 3, "name": "Steam Buy"},
-        {"id": 4, "name": "PlayStation Store"},
-        {"id": 5, "name": "Xbox Store"},
+        {"name": "Steam", "url": "https://store.steampowered.com"},
+        {"name": "Gabe Store", "url": "https://gabestore.ru"},
+        {"name": "Steam Buy", "url": "https://steambuy.com"},
+        {"name": "PlayStation Store", "url": "https://store.playstation.com"},
+        {"name": "Xbox Store", "url": "https://www.xbox.com/store"},
     ]
 
     for store in stores:
