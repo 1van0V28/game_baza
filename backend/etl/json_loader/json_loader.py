@@ -15,8 +15,9 @@ class JsonLoader:
         importer = JsonImporter(self.session_maker)
         importer.import_games_jsonl(reader)
 
-    def _load_offers(self, jsonl_paths):
-        for jsonl_path in jsonl_paths.values():
-            reader = JsonReader(jsonl_path)
+    def _load_offers(self, jsonl_paths: dict):
+        for store_slug, jsonl_path in jsonl_paths.items():
+            reader = JsonReader(jsonl_path, store_slug=store_slug)
             importer = JsonImporter(self.session_maker)
             importer.import_offers_jsonl(reader)
+

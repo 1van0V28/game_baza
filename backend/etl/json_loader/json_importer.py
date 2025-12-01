@@ -67,19 +67,22 @@ class JsonImporter:
             offer_record: dict с данными offer
         """
         game_id = self._get_game_id(session, offer_record['title'])
-
         if not game_id:
             return
 
+        # store_slug → id
+        store_slug = offer_record.get("store")
+        store_id = self._get_or_create_entity(
+            session, Store, store_slug
+        )
 
-        # Создаём offer
         offer = Offer(
             game_id=game_id,
+            store_id=store_id,
             price_original=offer_record.get("price_original"),
             discount_percent=offer_record.get("discount_percent"),
             price_discount=offer_record.get("price_discount"),
             store_game_link=offer_record.get('link'),
-
         )
 
         session.add(offer)
