@@ -1,6 +1,5 @@
 import json
 
-
 class JsonReader:
     def __init__(self, path):
         self.path = path

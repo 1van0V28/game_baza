@@ -1,14 +1,8 @@
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy import select
-from backend.etl.json_reader import JsonReader
+from backend.etl.json_loader.json_reader import JsonReader
 from backend.database.models import Game, Developer, Genre, Publisher, Platform, Store, Offer, Base
 from backend.utils.date_parsers import parse_russian_date
-
-from enum import Enum
-
-class DataType(Enum):
-    GAMES = "games"
-    OFFERS = "offers"
 
 class JsonImporter:
     """Импортирует данные игр из JSON в БД."""
@@ -23,16 +17,16 @@ class JsonImporter:
             "stores": {},
         }
 
-        self.handlers = {
-            "games": self._process_game_record,
-            "offers": self._process_offer_record,
-        }
-
-    def import_from_reader(self, reader: JsonReader, data_type: DataType):
-        handler = self.handlers[data_type.value]
+    def import_games_jsonl(self, reader: JsonReader):
         with self.session_factory() as session:
             for record in reader.stream():
-                handler(session, record)
+                self._process_game_record(session, record)
+            session.commit()
+
+    def import_offers_jsonl(self, reader: JsonReader):
+        with self.session_factory() as session:
+            for record in reader.stream():
+                self._process_offer_record(session, record)
             session.commit()
 
     def _process_game_record(self, session: Session, game_record: dict) -> None:
@@ -88,7 +82,6 @@ class JsonImporter:
             discount_percent=offer_record.get("discount_percent"),
             price_discount=offer_record.get("price_discount"),
             store_game_link=offer_record.get('link'),
-            positive_percent=offer_record.get("positive_percent"),
 
         )
 
