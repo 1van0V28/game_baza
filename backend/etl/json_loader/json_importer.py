@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy import select
 from backend.etl.json_loader.json_reader import JsonReader
 from backend.database.models import Game, Developer, Genre, Publisher, Platform, Store, Offer, Base
-from backend.utils.date_parsers import parse_russian_date
+from backend.utils.normalizers import normalize_date
 
 class JsonImporter:
     """Импортирует данные игр из JSON в БД."""
@@ -53,7 +53,7 @@ class JsonImporter:
         game = Game(
             title=game_record["title"],
             description=game_record.get("description"),
-            release_date=parse_russian_date(game_record.get('released')),
+            release_date=normalize_date(game_record.get('released')),
             image_url=game_record.get("image_url"),
             developer_id=developer_id,
             publisher_id=publisher_id,

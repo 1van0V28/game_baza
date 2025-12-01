@@ -1,28 +1,46 @@
-from backend.database.connection import SessionLocal
 from pathlib import Path
-from json_loader.json_loader import JsonLoader
-from deduplicator.deduplicator import Deduplicator
+from backend.database.connection import SessionLocal
+from backend.etl.json_loader.json_loader import JsonLoader
+from backend.etl.deduplicator.deduplicator import Deduplicator
 
-GAMES_JSONL_PATH = Path(__file__).resolve().parent / 'deduplicator' / "games.jsonl"
 
-STEAM_JSONL_PATH = Path(__file__).resolve().parents[1] / "parsers" / "steam_games.jsonl" # Отсюда берется вся основная информация для games
-GABESTORE_JSONL_PATH = Path(__file__).resolve().parents[1] / "parsers" / "gabestore_games.jsonl"
-STEAMBUY_JSONL_PATH = Path(__file__).resolve().parents[1] / "parsers" / "steambuy_games.jsonl"
+# Пути к файлам
+BASE_DIR = Path(__file__).resolve().parent
+PARSERS_DIR = BASE_DIR.parent / "parsers"
 
-stores_jsonl_paths = {
-    'Steam': STEAMBUY_JSONL_PATH,
+GAMES_JSONL_PATH = BASE_DIR / "deduplicator" / "games.jsonl"
+STEAM_JSONL_PATH = PARSERS_DIR / "steam_games.jsonl"
+GABESTORE_JSONL_PATH = PARSERS_DIR / "gabestore_games.jsonl"
+STEAMBUY_JSONL_PATH = PARSERS_DIR / "steambuy_games.jsonl"
+
+STORES_JSONL_PATHS = {
+    'Steam': STEAM_JSONL_PATH,
     'GabeStore': GABESTORE_JSONL_PATH,
     'SteamBuy': STEAMBUY_JSONL_PATH,
 }
 
-def import_games_to_database():
-    deduplicate_offers()
-    json_loader = JsonLoader(SessionLocal)
-    json_loader.load_data(GAMES_JSONL_PATH, stores_jsonl_paths)
 
 def deduplicate_offers():
-    deduplicator = Deduplicator(stores_jsonl_paths)
+    """Удалить дубликаты офферов из файлов парсеров"""
+    print("Дедупликация офферов...")
+    deduplicator = Deduplicator(STORES_JSONL_PATHS)
     deduplicator.start_dedupe()
+    print("Дедупликация завершена")
 
-deduplicate_offers()
-import_games_to_database()
+
+def import_games_to_database():
+    """Загрузить игры и офферы в БД"""
+    print("Импорт данных в БД...")
+    json_loader = JsonLoader(SessionLocal)
+    json_loader.load_data(GAMES_JSONL_PATH, STORES_JSONL_PATHS)
+    print("Импорт завершён")
+
+
+def run_full_etl():
+    """Полный ETL пайплайн: дедупликация - импорт"""
+    deduplicate_offers()
+    import_games_to_database()
+
+
+if __name__ == "__main__":
+    run_full_etl()
