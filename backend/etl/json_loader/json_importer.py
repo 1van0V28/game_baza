@@ -29,19 +29,10 @@ class JsonImporter:
                 self._process_offer_record(session, record)
             session.commit()
 
-    def _process_game_record(self, session: Session, game_record: dict) -> None:
-        """
-        Обрабатывает одну запись игры: проверяет на дубликаты и добавляет в БД.
-
-        Args:
-            session: SQLAlchemy сессия
-            game_record: dict с данными игры
-        """
-        # Проверка, есть ли уже такая игра
+    def _process_game_record(self, session: Session, game_record: dict):
         if self._get_game_id(session, game_record["title"]):
             return
 
-        # Получаем или создаём связанные сущности
         developer_id = self._get_or_create_entity(
             session, Developer, game_record.get("developer")
         )
@@ -49,7 +40,10 @@ class JsonImporter:
             session, Publisher, game_record.get("publisher")
         )
 
-        # Создаём новую игру
+        genre_objs = self._get_or_create_genres(
+            session, game_record.get("genres")
+        )
+
         game = Game(
             title=game_record["title"],
             description=game_record.get("description"),
@@ -58,6 +52,9 @@ class JsonImporter:
             developer_id=developer_id,
             publisher_id=publisher_id,
         )
+
+        for g in genre_objs:
+            game.genres.append(g)
 
         session.add(game)
 
@@ -146,6 +143,10 @@ class JsonImporter:
             Список объектов Genre
         """
         genres = []
+
+        if genre_names is None:
+            return []
+
         for genre_name in genre_names:
             stmt = select(Genre).where(Genre.name == genre_name)
             genre = session.scalar(stmt)
