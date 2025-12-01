@@ -3,8 +3,7 @@ from backend.etl.json_loader.json_reader import JsonReader
 from pathlib import Path
 from backend.utils.normalizers import normalize_title, normalize_genres
 
-GAMES_JSONL_PATH = Path(__file__).resolve() / 'games.jsonl'
-
+GAMES_JSONL_PATH = Path(__file__).resolve().parents[1] / 'games.jsonl'
 
 class Deduplicator:
     GAME_FIELDS = [
@@ -80,6 +79,6 @@ class Deduplicator:
         return game
 
     def _write_jsonl(self, games: dict):
-        with open('games.jsonl', 'w', encoding='utf-8') as f:
+        with open(GAMES_JSONL_PATH, 'w', encoding='utf-8') as f:
             for g in games.values():
                 f.write(json.dumps(g, ensure_ascii=False) + "\n")
