@@ -1,6 +1,7 @@
 from backend.config.config import config
 from sqlalchemy import create_engine, text, MetaData
 from sqlalchemy.orm import sessionmaker
+from contextlib import contextmanager
 
 db_config = config.db
 
@@ -11,14 +12,14 @@ engine = create_engine(
 
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
-def get_db():
-    """Генератор сессии для FastAPI Depends"""
-    with SessionLocal() as session:
-        yield session
-
+@contextmanager
 def get_session():
     session = SessionLocal()
     try:
         yield session
+        session.commit()
+    except Exception:
+        session.rollback()
+        raise
     finally:
         session.close()
