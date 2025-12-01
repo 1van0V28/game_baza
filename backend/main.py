@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from backend.config.config import config
 from backend.seeds.run_seeds import run_all_seeds
+
 engine = create_engine(
     url = config.db.DATABASE_URL_psycopg,
     echo = True
