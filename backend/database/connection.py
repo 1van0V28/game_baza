@@ -15,3 +15,10 @@ def get_db():
     """Генератор сессии для FastAPI Depends"""
     with SessionLocal() as session:
         yield session
+
+def get_session():
+    session = SessionLocal()
+    try:
+        yield session
+    finally:
+        session.close()

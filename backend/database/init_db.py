@@ -1,7 +1,7 @@
 from backend.database.connection import engine
 from backend.database.models import Base
 from backend.seeds.seeds import seed_stores
-from backend.database.connection import get_db
+from backend.database.connection import get_session
 # from sqlalchemy.schema import CreateTable
 # from pathlib import Path
 
@@ -10,7 +10,10 @@ from backend.database.connection import get_db
 def create_tables():
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
-    with get_db() as session:
+
+    from backend.seeds.seeds import seed_stores
+
+    with get_session() as session:
         seed_stores(session)
 
     # with open(SCHEMA_PATH, "w", encoding="utf-8") as f:
