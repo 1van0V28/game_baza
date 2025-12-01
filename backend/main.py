@@ -6,15 +6,15 @@ from backend.etl.main import run_full_etl
 def init_database():
     """Создать таблицы БД"""
     create_tables()
-    print("✅ База данных инициализирована")
+    print("База данных инициализирована")
 
 
 def main():
     """Запуск ETL пайплайна"""
     run_full_etl()
-    print("✅ ETL завершён")
+    print("ETL завершён")
 
 
 if __name__ == "__main__":
-    # init_database()  # только при первом запуске или после изменений схемы
+   # init_database()  # только при первом запуске или после изменений схемы
     main()
