@@ -76,7 +76,7 @@ MONTHS = {
 }
 
 # "21 авг. 2012 г."
-def parse_russian_date(ru_date: str) -> date|None:
+def normalize_date(ru_date: str) -> date|None:
 
     if not ru_date:
         return None
