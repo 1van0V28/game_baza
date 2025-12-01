@@ -1,25 +1,19 @@
 import json
-import re
-from json_reader import JsonReader
+from backend.etl.json_loader.json_reader import JsonReader
 from pathlib import Path
 from backend.utils.normalizers import normalize_title, normalize_genres
 
 GAMES_JSONL_PATH = Path(__file__).resolve() / 'games.jsonl'
 
-import json
-from pathlib import Path
-from json_reader import JsonReader
-from backend.utils.normalizers import normalize_title, normalize_genres
-
 
 class Deduplicator:
     GAME_FIELDS = [
-        'title', 'image_url', 'released', 'positive_percent',
+        'title', 'image_url', 'released',
         'developer', 'publisher', 'genres', 'description'
     ]
 
-    def __init__(self, store_jsonl_paths: dict):
-        self.store_jsonl_paths = store_jsonl_paths
+    def __init__(self, stores_jsonl_paths: dict):
+        self.stores_jsonl_paths = stores_jsonl_paths
         self.games = {}
 
         self.store_ranks = {
@@ -30,7 +24,7 @@ class Deduplicator:
 
     def start_dedupe(self):
         """Главный процесс: пройтись по всем магазинам и собрать игры."""
-        for store_type, path in self.store_jsonl_paths.items():
+        for store_type, path in self.stores_jsonl_paths.items():
             self._consume_store(path, store_type)
 
         self._write_jsonl(self.games)
