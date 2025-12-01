@@ -1,4 +1,4 @@
-from backend.config import config
+from backend.config.config import config
 from sqlalchemy import create_engine, text, MetaData
 from sqlalchemy.orm import sessionmaker
 
@@ -9,7 +9,9 @@ engine = create_engine(
     echo=True
 )
 
-session = sessionmaker(bind=engine)
+SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
-# with session() as session:
-#     session.
+def get_db():
+    """Генератор сессии для FastAPI Depends"""
+    with SessionLocal() as session:
+        yield session

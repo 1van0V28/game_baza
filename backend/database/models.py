@@ -1,9 +1,11 @@
 from sqlalchemy import Table, Column, Integer, String, Text, ForeignKey, Date, Numeric, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship, DeclarativeBase
 from datetime import date
+from sqlalchemy.ext.declarative import as_declarative
 
-class Base(DeclarativeBase):
-    pass
+@as_declarative()
+class Base(object):
+    id = Column(Integer, autoincrement=True, primary_key=True)
 
 # Связующие таблицы many-to-many
 genres_games = Table(
@@ -29,6 +31,9 @@ class Developer(Base):
 
     # Связь с играми
     games: Mapped[list["Game"]] = relationship(back_populates="developer")
+
+    def __repr__(self) -> str:
+        return f"Developer(id={self.id}, name={self.name})"
 
 
 class Publisher(Base):
@@ -130,29 +135,28 @@ class Offer(Base):
     store_id: Mapped[int] = mapped_column(
         Integer,
         ForeignKey('stores.id', ondelete='CASCADE'),
-        nullable=False,
+        nullable=True,
         index=True
     )
-    platform_id: Mapped[int | None] = mapped_column(
-        Integer,
-        ForeignKey('platforms.id', ondelete='SET NULL'),
-        nullable=True
-    )
+    # platform_id: Mapped[int | None] = mapped_column(
+    #     Integer,
+    #     ForeignKey('platforms.id', ondelete='SET NULL'),
+    #     nullable=True
+    # )
 
     # Данные о цене
     store_game_link: Mapped[str | None] = mapped_column(String(1000), nullable=True)
-    price_original: Mapped[float | None] = mapped_column(Numeric(10, 2), nullable=True)
-    price_discount: Mapped[float | None] = mapped_column(Numeric(10, 2), nullable=True, index=True)
-    discount_percent: Mapped[int | None] = mapped_column(Integer, nullable=True)
-    is_free: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False, index=True)
+    price_original: Mapped[str | None] = mapped_column(String(1000), nullable=True)
+    price_discount: Mapped[str | None] = mapped_column(String(1000), nullable=True, index=True)
+    discount_percent: Mapped[str | None] = mapped_column(String(4), nullable=True)
 
-    # Отзывы (специфично для Steam)
-    reviews_count: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    # # Отзывы (специфично для Steam)
+    # reviews_count: Mapped[int | None] = mapped_column(Integer, nullable=True)
     positive_percent: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
     # Связи
     game: Mapped["Game"] = relationship(back_populates="offers")
     store: Mapped["Store"] = relationship(back_populates="offers")
-    platform: Mapped["Platform"] = relationship()
+    # platform: Mapped["Platform"] = relationship()
 
 
