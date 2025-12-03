@@ -16,8 +16,8 @@ STEAMBUY_JSONL_PATH = PARSERS_DIR / "steambuy_games.jsonl"
 
 STORES_JSONL_PATHS = {
     'Steam': STEAM_JSONL_PATH,
-    'GabeStore': GABESTORE_JSONL_PATH,
-    'SteamBuy': STEAMBUY_JSONL_PATH,
+    'Gabe Store': GABESTORE_JSONL_PATH,
+    'Steam Buy': STEAMBUY_JSONL_PATH,
 }
 
 
