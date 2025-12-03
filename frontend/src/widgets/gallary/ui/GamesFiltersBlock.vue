@@ -4,8 +4,9 @@ import GamesMonoSelectorFilter from '../filters/GamesMonoSelectorFilter.vue'
 import GamesMultiSelectorFilter from '../filters/GamesMultiSelectorFilter.vue'
 import { useGamesFilters } from '@/features/filters/stores/useGamesFilters'
 import { searchGamesFiltersStore } from '@/features/filters/stores/filtersStores'
+import { filtersQueryBuilder } from '@/features/filters/lib/filtersQueryBuilder'
 import { searchGamesStore } from '@/features/search_games/stores/searchGamesStore'
-import { gamesMonoSelectors, gamesMultiSelectors } from '../definitions/filtersDefinitions'
+import { gamesFiltersDefinition, gamesMonoSelectors, gamesMultiSelectors } from '../definitions/filtersDefinitions'
 import { computed, onMounted } from 'vue'
 
 const gamesFiltersStore = useGamesFilters()
@@ -14,7 +15,8 @@ const gamesAvailableFilters = computed(() => gamesFiltersStore.availableFilters.
 const gamesSelectedFilters = computed(() => searchGamesFiltersStore.filters.value)
 
 const handleFiltersApply = () => {
-	searchGamesStore.searchGame("")
+	const filtersQuery = filtersQueryBuilder(searchGamesFiltersStore.filters.value, gamesFiltersDefinition)
+	searchGamesStore.searchGame(filtersQuery)
 }
 
 onMounted(() => {
@@ -33,6 +35,7 @@ onMounted(() => {
 				<GamesMonoSelectorFilter v-for="filter in gamesMonoSelectors"
 					:key="filter.name"
 					:name="filter.name"
+					:type="filter.type"
 					:values="filter.values"
 					:model-value="gamesSelectedFilters[filter.name]"
 					:model-active="filterEmits.modelActive"
@@ -46,6 +49,7 @@ onMounted(() => {
 				<GamesMultiSelectorFilter v-for="filter in gamesMultiSelectors"
 					:key="filter.name"
 					:name="filter.name"
+					:type="filter.type"
 					:values="gamesAvailableFilters?.[filter.name]"
 					:model-value="gamesSelectedFilters[filter.name]"
 					:model-active="filterEmits.modelActive"

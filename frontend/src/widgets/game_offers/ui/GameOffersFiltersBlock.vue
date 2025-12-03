@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useGameOffersFilters } from '@/features/filters/stores/useGameOffersFilters'
+import type { IGameOffersFiltersFeatureStore } from '@/features/filters/interface/FiltersStore'
 import { gameOffersMonoSelectorsString, gameOffersMonoSelectorsRange, gameOffersMultiSelectors } from '../definitions/filtersDefinitions'
 import { computed, onMounted } from 'vue'
 import FiltersBlock from '@/features/filters/wrap/FiltersBlock.vue'
@@ -7,13 +7,13 @@ import GameOffersMonoSelectorStringFilter from '../filters/GameOffersMonoSelecto
 import GameOffersMonoSelectorRangeFilter from '../filters/GameOffersMonoSelectorRangeFilter.vue'
 import GameOffersMultiSelectorFilter from '../filters/GameOffersMultiSelectorFilter.vue'
 
-const gameOffersFiltersStore = useGameOffersFilters()
+const props = defineProps<{ gameOffersFiltersStore: IGameOffersFiltersFeatureStore }>()
 
-const gameOffersAvailableFilters = computed(() => gameOffersFiltersStore.availableFilters)
-const gameOffersSelectedFilters = computed(() => gameOffersFiltersStore.selectedFilters)
+const gameOffersAvailableFilters = computed(() => props.gameOffersFiltersStore.availableFilters)
+const gameOffersSelectedFilters = computed(() => props.gameOffersFiltersStore.selectedFilters)
 
 onMounted(() => {
-	gameOffersFiltersStore.fetchAvailableFilters()
+	props.gameOffersFiltersStore.fetchAvailableFilters()
 })
 </script>
 
@@ -27,6 +27,7 @@ onMounted(() => {
 				<GameOffersMonoSelectorStringFilter v-for="filter in gameOffersMonoSelectorsString"
 					:key="filter.name"
 					:name="filter.name"
+					:type="filter.type"
 					:values="filter.values"
 					:model-value="gameOffersSelectedFilters?.value[filter.name]"
 					:model-active="filterEmits.modelActive"
@@ -39,6 +40,7 @@ onMounted(() => {
 				<GameOffersMonoSelectorRangeFilter v-for="filter in gameOffersMonoSelectorsRange"
 					:key="filter.name"
 					:name="filter.name"
+					:type="filter.type"
 					:values="filter.values"
 					:model-value="gameOffersSelectedFilters?.value[filter.name]"
 					:model-active="filterEmits.modelActive"
@@ -52,6 +54,7 @@ onMounted(() => {
 				<GameOffersMultiSelectorFilter v-for="filter in gameOffersMultiSelectors"
 					:key="filter.name"
 					:name="filter.name"
+					:type="filter.type"
 					:values="gameOffersAvailableFilters.value?.[filter.name]"
 					:model-value="gameOffersSelectedFilters?.value[filter.name]"
 					:model-active="filterEmits.modelActive"
@@ -70,7 +73,7 @@ onMounted(() => {
 
 <style scoped>
 .filters_list {
-	padding: 0 0 var(--p_games_catalog);
+	padding: 0 0 calc(var(--p_games_catalog) / 2);
 	display: grid;
 	grid-template-columns: var(--gtc_games_gallary);
 	gap: var(--gap_games_gallary);

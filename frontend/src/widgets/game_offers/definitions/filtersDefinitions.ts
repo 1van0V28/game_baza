@@ -5,26 +5,25 @@ import {
 	type GameOffersMonoSelectorStringDefinition, 
 	type GameOffersMultiSelectorDefinition 
 } from "@/features/filters/interface/FilterDefinition"
+import { TypeFilter } from "@/features/filters/interface/FiltersStore"
 
 export const gameOffersMonoSelectorsString: GameOffersMonoSelectorStringDefinition[] = [
 	{
 		name: "sort",
+		type: TypeFilter.MonoSelectorString,
 		values: [
-			"popularity",
 			"cheap",
 			"expensive",
-			"sale",
-			"alphabet",
-			"rating"
 		],
 		defaultValue: "cheap",
-		resetBehavior: ResetBehavior.ToDefault
+		resetBehavior: ResetBehavior.ToDefault,
 	}
 ]
 
 export const gameOffersMonoSelectorsRange: GameOffersMonoSelectorRangeDefinition[] = [
 	{
 		name: "price",
+		type: TypeFilter.MonoSelectorRange,
 		label: "Цена",
 		values: [
 			undefined,
@@ -33,20 +32,22 @@ export const gameOffersMonoSelectorsRange: GameOffersMonoSelectorRangeDefinition
 			[3000, 6000],
 			[6000, 0] 
 		],
-		resetBehavior: ResetBehavior.Clear
+		resetBehavior: ResetBehavior.Clear,
 	}
 ]
 
 export const gameOffersMultiSelectors: GameOffersMultiSelectorDefinition[] = [
 	{
 		name: "store",
+		type: TypeFilter.MultiSelectorString,
 		label: "Магазин",
-		resetBehavior: ResetBehavior.Clear
+		resetBehavior: ResetBehavior.Clear,
 	},
 	{
 		name: "platform",
+		type: TypeFilter.MultiSelectorString,
 		label: "Платформа",
-		resetBehavior: ResetBehavior.Clear
+		resetBehavior: ResetBehavior.Clear,
 	}
 ]
 

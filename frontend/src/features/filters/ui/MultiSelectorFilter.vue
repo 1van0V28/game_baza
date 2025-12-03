@@ -8,12 +8,12 @@ const props = defineProps<UIMultiSelectorProps<T>>()
 <template>
 	<div class="selector_filter">
 		<div class="selector_label" @click="props.handleLabelClick">
-			<span>
-				{{ props.label }}<span v-if="props.selectedCount">:<span class="selector_label__count">{{ props.selectedCount }}</span></span>
-			</span>
-			<span class="selector_label__arrow" :class="{ arrow_active: props.isActive }">
+			<div class="selector_label__container">
+				<span class="selector_label__label">{{ props.label }}</span><span v-if="props.selectedCount">|<span class="selector_label__count">{{ props.selectedCount }}</span></span>
+			</div>
+			<div class="selector_label__arrow" :class="{ arrow_active: props.isActive }">
 				↓
-			</span>
+			</div>
 		</div>
 
 		<div class="selector_separator">
@@ -47,12 +47,24 @@ const props = defineProps<UIMultiSelectorProps<T>>()
 
 .selector_label {
 	padding: var(--p_selector);
-	display: flex;
-	justify-content: space-between;
+	display: grid;
+	grid-template-columns: 1fr auto;
+	column-gap: calc(var(--fs_selector) / 2);
 	width: 100%;
 	font-size: var(--fs_selector);
 	color: var(--c_text);
 	cursor: pointer;
+}
+
+.selector_label__container {
+	display: grid;
+	grid-template-columns: 1fr auto;
+}
+
+.selector_label__label {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 .selector_label__count {

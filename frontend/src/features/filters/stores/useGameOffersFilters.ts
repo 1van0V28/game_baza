@@ -1,4 +1,9 @@
-import type { IGameOffersFiltersFeatureStore, GameOffersSelectedFiltersState, GameOffersSelectedFilterUpdate } from "../interface/FiltersStore"
+import { 
+	TypeFilter,
+	type IGameOffersFiltersFeatureStore, 
+	type GameOffersSelectedFiltersState, 
+	type GameOffersSelectedFilterUpdate 
+} from "../interface/FiltersStore"
 import type { GameOffersFiltersDefinition } from "../interface/FilterDefinition"
 import type { GameOffersAvailableFiltersStore } from "@/entities/domain_stores/model/Filter"
 import { useFiltersStore } from "../lib/useFiltersStore"
@@ -35,7 +40,7 @@ export const useGameOffersFilters = (): IGameOffersFiltersFeatureStore => {
 	}
 
 	function applySelectedFilter(filter: GameOffersSelectedFilterUpdate) {
-		if (filter.name != "sort" && filter.name != "price") {
+		if (filter.type == TypeFilter.MultiSelectorString) {
 			const newModelValue = updateMultiSelectorValue(
 				gameOffersSelectedFilters.filters.value[filter.name], 
 				{ value: filter.value, isActive: filter.isActive }
@@ -55,6 +60,6 @@ export const useGameOffersFilters = (): IGameOffersFiltersFeatureStore => {
 		availableFilters: gameOffersAvailableFilters.data,
 		fetchAvailableFilters,
 		applySelectedFilter,
-		resetSelectedFilters
+		resetSelectedFilters,
 	}
 }

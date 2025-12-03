@@ -21,6 +21,7 @@ import "../styles/fonts.css"
   --fs_main_info: 2rem; 
   --fs_genre_bar: 1rem;
   --fs_game_offer_card: 1.1em;
+  --fs_game_offers_title: 2rem;
 
   --p_header: 0 2rem;
   --p_games_catalog: 4rem;
@@ -101,9 +102,11 @@ import "../styles/fonts.css"
 		--w_game_info__button_scroll: 100%;
 
 		--fs_load_indicator: 1.5rem;
+		--fs_filter_button: 0.8rem;
 		--fs_selector: 0.8rem; 
 		--fs_main_info: 1rem; 
 		--fs_game_offer_card: 0.7em;
+		--fs_game_offers_title: 1.5rem;
 
 		--p_header: 0 1rem;
 		--p_games_catalog: 1.5rem;

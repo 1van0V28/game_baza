@@ -1,5 +1,6 @@
 import type { 
 	SelectedFiltersStates,
+	TypeFilterFor, 
 	GamesSelectedFiltersState,
 	GamesMonoSelectorFilterName,
 	GamesMultiSelectorFilterName,
@@ -8,8 +9,9 @@ import type {
 	GameOffersMonoSelectorRangeFilterName, 
 	GameOffersMultiSelectorFilterName, 
 	ResetFilterValue,
-	RangeFilterValue 
+	RangeFilterValue,
 } from "./FiltersStore"
+
 
 export enum ResetBehavior {
 	None = "none",
@@ -17,12 +19,14 @@ export enum ResetBehavior {
 	Clear = "clear"
 }
 
+
 export interface TypeFilterDefinition<
 	T,
 	K extends SelectedFiltersStates,
 	KName extends keyof K,
 	> {
 	name: KName,
+	type: TypeFilterFor<K, KName>
 	values?: T | undefined,
 	defaultValue?: K[KName],
 	label?: string,
@@ -35,7 +39,7 @@ export interface TypeFilterDefinitionResetClear<
 	> extends TypeFilterDefinition<T, K, KName> {
 	label: string
 	resetBehavior: ResetBehavior.Clear
-} 
+}
 
 export type FiltersDefinitions<T extends SelectedFiltersStates> =  TypeFilterDefinition<unknown, T, keyof T>
 
@@ -60,8 +64,7 @@ export type GamesMultiSelectorsDefinition = TypeFilterDefinitionResetClear<
 	GamesMultiSelectorFilterName
 	>
 
-export type GameOffersMonoSelectorStringDefinition = 
-	TypeFilterDefinition<
+export type GameOffersMonoSelectorStringDefinition = TypeFilterDefinition<
 	string[],
 	GameOffersSelectedFiltersState,
 	GameOffersMonoSelectorStringFilterName

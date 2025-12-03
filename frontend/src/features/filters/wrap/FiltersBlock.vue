@@ -1,9 +1,10 @@
 <script setup lang="ts" generic="T extends SelectedFiltersStates">
-import type { 
-	SelectedFiltersStates,
-	IBaseFiltersFeatureStore, 
-	SelectedFilterUpdate, 
-	FilterEmits
+import { 
+	type SelectedFiltersStates,
+	type IBaseFiltersFeatureStore, 
+	type SelectedFilterUpdate, 
+	type FilterEmits,
+	TypeFilter
 } from '../interface/FiltersStore'
 import { shallowRef } from 'vue'
 import { getOpenedFiltersAuto, getOpenedFilters } from '../lib/filtersToggle'
@@ -20,6 +21,11 @@ const emit = defineEmits(["apply"])
 
 const updateFilter = (filter: SelectedFilterUpdate<T>) => {
 	if (props.isAutoApply) applyFilters()
+
+	if (filter.type == TypeFilter.MonoSelectorString || filter.type == TypeFilter.MonoSelectorRange) {
+		toggleFilter(filter.name)
+	}
+
 	props.filtersFeatureStore.applySelectedFilter(filter)
 }
 

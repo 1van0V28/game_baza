@@ -15,6 +15,7 @@ const props = defineProps<{ name: string | undefined }>()
 	background-color: var(--c_card-bg);
 	font-size: var(--fs_genre_bar);
 	color: var(--c_secondary2-accent);
+	cursor: pointer;
 }
 
 .genre_bar_skeleton {

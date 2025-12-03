@@ -37,6 +37,7 @@ const handleValueClick = (value: string) => {
 
 	props.updateFilter({
 		name: props.name,
+		type: props.type,
 		value: translateMap.value[value],
 	})
 }
@@ -48,6 +49,7 @@ const handleValueClick = (value: string) => {
 		:label="props.label"
 		:model-value="props.modelValue && getTranslate(props.modelValue)"
 		:is-active="monoSelectorFilterProps.isActive.value"
+		:is-highlighted="false"
 		
 		:handle-label-click="monoSelectorFilterProps.handleLabelClick"
 		:handle-value-click="handleValueClick" />

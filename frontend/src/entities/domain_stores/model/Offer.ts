@@ -1,6 +1,6 @@
 export interface Offer {
 	id: string,
-	storeName: string,
+	store: string,
 	imgStoreURL: string,
 	offerURL: string,
 	platform: string,

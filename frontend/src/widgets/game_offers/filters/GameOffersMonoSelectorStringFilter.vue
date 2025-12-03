@@ -10,6 +10,7 @@ const monoSelectorFilterProps = useSelectorFiltersProps(props)
 const handleValueClick = (value: string) => {
 	props.updateFilter({
 		name: props.name,
+		type: props.type,
 		value: value,
 	})
 }
@@ -20,6 +21,7 @@ const handleValueClick = (value: string) => {
 		:values="props.values"
 		:model-value="props.modelValue"
 		:is-active="monoSelectorFilterProps.isActive.value"
+		:is-highlighted="true"
 		
 		:handle-label-click="monoSelectorFilterProps.handleLabelClick"
 		:handle-value-click="handleValueClick" />

@@ -1,10 +1,19 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import { gamePreview } from '@/features/game_info/stores/gamePreview'
 import { gameInfoStore } from '@/entities/domain_stores/stores/domainStores'
 import { computed } from 'vue'
+import { gameOffersExportRef } from '@/widgets/game_info/refs/componentRefs'
+import { useGamesFilters } from '@/features/filters/stores/useGamesFilters'
+import { TypeFilter } from '@/features/filters/interface/FiltersStore'
+import { filtersQueryBuilder } from '@/features/filters/lib/filtersQueryBuilder'
+import { gamesFiltersDefinition } from '@/widgets/gallary/definitions/filtersDefinitions'
+import { searchGamesStore } from '@/features/search_games/stores/searchGamesStore'
 import TextSkeleton from '@/shared/ui/TextSkeleton.vue'
 import GenreBar from '@/shared/ui/GenreBar.vue'
 import DescriptionContainer from '@/shared/ui/DescriptionContainer.vue'
+
+const router = useRouter()
 
 const gameInfo = computed(() => {
 	return {
@@ -15,7 +24,35 @@ const gameInfo = computed(() => {
 		description: gameInfoStore.data.value?.description
 	}
 })
+
 const isImageHidden = computed(() => (!gameInfo.value.imgURL && gameInfoStore.isPending) )
+
+const handleButtonScrollClick = () => {
+	if (!gameOffersExportRef.value) return
+
+	gameOffersExportRef.value.scrollIntoView({
+		behavior: "smooth",
+		block: "center"
+	})
+}
+
+const handleGenreBarClick = (genre: string) => {
+	const gamesFilters = useGamesFilters()
+
+	gamesFilters.resetSelectedFilters()
+	gamesFilters.applySelectedFilter({ 
+		name: "genre", 
+		type: TypeFilter.MultiSelectorString,  
+		value: genre, 
+		isActive: true
+	})
+
+	const filtersQuery = filtersQueryBuilder(gamesFilters.selectedFilters.value, gamesFiltersDefinition)
+	searchGamesStore.resetData()
+	searchGamesStore.searchGame(filtersQuery)
+
+	router.back()
+}
 </script>
 
 <template>
@@ -46,7 +83,7 @@ const isImageHidden = computed(() => (!gameInfo.value.imgURL && gameInfoStore.is
 					от<span class="min_price--highlight">{{ gameInfo.minPrice }}<TextSkeleton v-if="!gameInfo.minPrice" class="min_price__skeleton"/><span :class="{ min_price__value: !gameInfo.minPrice }">₽</span></span>
 				</div>
 
-				<button class="button_scroll">Смотреть предложения<span class="button_scroll_arrow">↓</span></button>
+				<button class="button_scroll" @click="handleButtonScrollClick">Смотреть предложения<span class="button_scroll_arrow">↓</span></button>
 			</div>
 		</div>
 
@@ -54,6 +91,7 @@ const isImageHidden = computed(() => (!gameInfo.value.imgURL && gameInfoStore.is
 			Жанр:
 			<template v-if="gameInfo.genres">
 				<GenreBar v-for="genreName in gameInfo.genres"
+					@click="() => { handleGenreBarClick(genreName) }"
 					:key="genreName"
 					:name="genreName"/>
 			</template>

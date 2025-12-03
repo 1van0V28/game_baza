@@ -8,8 +8,8 @@ const props = defineProps<UIMonoSelectorProps<T>>()
 
 <template>
 	<div class="selector_filter">
-		<div class="selector_label" @click="props.handleLabelClick">
-			<span>
+		<div class="selector_label" :class="{ selector_label_highlighted: props.isHighlighted }" @click="props.handleLabelClick">
+			<span class="selector_label_label">
 				{{ props.modelValue ?? props.label }}
 			</span>
 			<span class="selector_label__arrow" :class="{ arrow_active: props.isActive }">
@@ -48,16 +48,22 @@ const props = defineProps<UIMonoSelectorProps<T>>()
 
 .selector_label {
 	padding: var(--p_selector);
-	display: flex;
-	justify-content: space-between;
+	display: grid;
+	grid-template-columns: 1fr auto;
 	width: 100%;
 	font-size: var(--fs_selector);
-	background-color: var(--c_text);
+	color: var(--c_text);
 	cursor: pointer;
 }
+.selector_label_highlighted {
+	background-color: var(--c_text);
+	color: var(--c_bg);
+}
 
-.selector_label__count {
-	color: var(--c_highlight-accent)
+.selector_label_label {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 .selector_label__arrow {

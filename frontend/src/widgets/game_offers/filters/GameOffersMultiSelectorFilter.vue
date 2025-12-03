@@ -10,6 +10,7 @@ const multiSelectorFilterProps = useSelectorFiltersMultiProps(props)
 const handleValueClick = (value: string) => {
 	props.updateFilter({
 		name: props.name,
+		type: props.type,
 		value: value,
 		isActive: !props.modelValue?.[value] 
 	})

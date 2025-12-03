@@ -13,7 +13,7 @@ import { gamesStore } from '@/entities/domain_stores/stores/domainStores'
 			<span class="games_count--highlight">{{ gamesStore.data.value?.gamesCount ?? 0 }}</span>
 		</h2>
 
-		<GamesFiltersBlock/>
+		<GamesFiltersBlock />
 		<GamesGallary />
 	</section>
 </template>

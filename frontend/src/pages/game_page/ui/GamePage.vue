@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Offer } from '@/entities/domain_stores/model/Offer'
 import { useGameInfo } from '@/features/game_info/stores/useGameInfo'
+import { useGameOffersFilters } from '@/features/filters/stores/useGameOffersFilters'
 import { ref, onMounted } from 'vue'
 import { gamePreview } from '@/features/game_info/stores/gamePreview'
 import { mockOffersData } from '@/entities/domain_stores/api/mockOffers'
@@ -14,6 +15,7 @@ const props = defineProps<{ gameID: string }>()
 const gameOffers = ref<Offer[]>()
 
 const gameInfo = useGameInfo(props.gameID)
+const gameOffersFiltersStore = useGameOffersFilters()
 
 onMounted(async () => {
 	if (props.gameID == gamePreview.value?.id) return
@@ -29,10 +31,12 @@ onMounted(async () => {
 	<HomeHeader />
 	<div class="page_container">
 		<GameInfo />
-		<section>
+		<section class="display">
 			<h1 class="game_offers_title">ПРЕДЛОЖЕНИЯ</h1>
-			<GameOffersFiltersBlock/>
-			<GameOffers :offers="gameOffers"/>
+			<GameOffersFiltersBlock :game-offers-filters-store="gameOffersFiltersStore" />
+			<GameOffers 
+				:offers="gameOffers" 
+				:game-offers-selected-filters="gameOffersFiltersStore.selectedFilters.value" />
 		</section>
 	</div>
 </template>
@@ -44,7 +48,7 @@ onMounted(async () => {
 
 .game_offers_title {
 	padding: var(--p_games_catalog) 0 1.5rem;
-	font-size: 2rem;
+	font-size: var(--fs_game_offers_title);
 	color: var(--c_highlight-accent);
 }
 </style>

@@ -44,6 +44,16 @@ const handleReadAllClick = () => { isActive.value = !isActive.value }
 	font-size: var(--fs_text);
 	line-height: var(--lh_text);
 }
+@media (max-width: 1024px) {
+	.description {
+		--fs_text: 0.9rem;
+	}
+}
+@media (max-width: 600px) {
+	.description {
+		--fs_text: 0.8rem;
+	}
+}
 
 .text {
 	display: -webkit-box;
@@ -53,6 +63,8 @@ const handleReadAllClick = () => { isActive.value = !isActive.value }
 }
 .text_active {
 	display: flex;
+	text-wrap: balance;
+	overflow-wrap: anywhere;
 }
 
 

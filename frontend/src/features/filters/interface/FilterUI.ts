@@ -67,7 +67,9 @@ export interface UISelectorProps<T extends string[], K> extends UIFilterProps<T,
 	handleLabelClick: () => void
 	handleValueClick: (value: T[number]) => void
 }
-export type UIMonoSelectorProps<T extends string[]> = UISelectorProps<T, T[number]> 
+export interface UIMonoSelectorProps<T extends string[]> extends UISelectorProps<T, T[number]> {
+	isHighlighted: boolean
+}
 export interface UIMultiSelectorProps<T extends string[]> extends UISelectorProps<T, Record<T[number], true>> {
 	selectedCount: number
 }

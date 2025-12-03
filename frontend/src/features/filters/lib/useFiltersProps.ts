@@ -6,7 +6,8 @@ import { computed } from "vue"
 export const useSelectorFiltersProps = <
 	T, 
 	K extends SelectedFiltersStates, 
-	KName extends keyof K> (props: IFilterProps<T, K, KName>) => {
+	KName extends keyof K
+> (props: IFilterProps<T, K, KName>) => {
 		const isActive = computed(() => Boolean(props.modelActive.value[props.name]))
 
 		const handleLabelClick = () => { props.toggleFilter(props.name) }
@@ -21,7 +22,8 @@ export const useSelectorFiltersProps = <
 export const useSelectorFiltersMultiProps = <
 	T, 
 	K extends SelectedFiltersStates, 
-	KName extends keyof K> (props: IFilterProps<T, K, KName>) => {
+	KName extends keyof K
+> (props: IFilterProps<T, K, KName>) => {
 		const selectorFiltersProps = useSelectorFiltersProps<T, K, KName>(props)
 
 		const selectedCount = computed(() => Object.keys(props.modelValue ?? {}).length)
