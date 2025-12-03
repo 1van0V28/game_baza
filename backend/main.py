@@ -15,8 +15,8 @@ def prepare_data():
 
 
 def run_etl():
-    """Полный цикл ETL: парсинг → очистка → загрузка"""
-    # run_parsers()  # когда допишешь
+    """Полный цикл ETL: парсинг - очистка - загрузка"""
+    # run_parsers()
     deduplicate_offers()
     import_games_to_database()
     print("ETL завершён")
