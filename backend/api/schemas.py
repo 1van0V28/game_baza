@@ -1,6 +1,7 @@
 from pydantic import BaseModel, field_validator
 from typing import List, Optional
 import re
+from fastapi import Query
 
 class GamePreview(BaseModel):
     id: int
@@ -47,8 +48,9 @@ class OfferDTO(BaseModel):
 
     class Config:
         from_attributes = True
+
 class GameFull(GamePreview):
-    description: str
+    description: str|None
     release_date: str
     developer: str
     publisher: str
@@ -60,4 +62,11 @@ class GameFull(GamePreview):
         from_attributes = True
 
 
-
+class GameFilters(BaseModel):
+    title: Optional[str] = Query(None)
+    platforms: Optional[List[str]] = Query(None)
+    genres: Optional[List[str]] = Query(None)
+    stores: Optional[List[str]] = Query(None)
+    price_min: Optional[int] = Query(None)
+    price_max: Optional[int] = Query(None)
+    sort: Optional[str] = Query(None)
