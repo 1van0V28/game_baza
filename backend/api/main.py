@@ -29,17 +29,22 @@ def compute_min_prices(offers: List[OfferDTO]):
 
     return min_price_original, min_price_discount, discount_percent
 
-@app.get("/games", response_model=GamesPage)
+@app.get(
+    "/games",
+    response_model=GamesPage,
+    summary="Список игр",
+    description="Возвращает постраничный список игр с минимальными ценами и базовой информацией. Поддерживаются фильтры.",
+)
 def get_games(
-    last_id: int = 0,
-    per_page: int = 50,
-    title: Optional[str] = None,
-    platforms: Optional[List[str]] = Query(None),
-    genres: Optional[List[str]] = Query(None),
-    stores: Optional[List[str]] = Query(None),
-    price_min: Optional[int] = None,
-    price_max: Optional[int] = None,
-    sort: Optional[str] = None,
+    last_id: int = Query(0, description="ID последней загруженной записи (для постраничной навигации)"),
+    per_page: int = Query(50, description="Количество элементов на страницу"),
+    title: Optional[str] = Query(None, description="Фильтр по названию (подстрока)"),
+    platforms: Optional[List[str]] = Query(None, description="Фильтр по платформам (несколько значений)"),
+    genres: Optional[List[str]] = Query(None, description="Фильтр по жанрам (несколько значений)"),
+    stores: Optional[List[str]] = Query(None, description="Фильтр по магазинам (несколько значений)"),
+    price_min: Optional[int] = Query(None, description="Минимальная цена"),
+    price_max: Optional[int] = Query(None, description="Максимальная цена"),
+    sort: Optional[str] = Query(None, description="Ключ сортировки (не работает)"),
     db: Session = Depends(get_session),
 ):
     filters = GameFilters(
@@ -96,8 +101,17 @@ def get_games(
         items=items,
     )
 
-@app.get("/games/{game_id}", response_model=GameFull)
-def get_game(game_id: int, session: Session = Depends(get_session)):
+@app.get(
+    "/games/{game_id}",
+    response_model=GameFull,
+    summary="Информация об игре",
+    description="Детальная информация по одной игре: описания, жанры, даты релиза и доступные офферы.",
+    response_description="Полный объект игры с рассчитанными минимальными ценами и списком офферов."
+)
+def get_game(
+    game_id: int,
+    session: Session = Depends(get_session),
+):
     repo = GameRepository(session)
     game = repo.get_game(game_id)
 
@@ -131,14 +145,22 @@ def get_game(game_id: int, session: Session = Depends(get_session)):
         title=game.title,
     )
 
-@app.get("/genres")
+@app.get(
+    "/genres",
+    summary="Справочник жанров",
+    description="Простой список всех жанров. Лёгкий справочный эндпоинт для фильтров на фронтенде."
+)
 def get_genres(db: Session = Depends(get_session)):
     repo = GenreRepository(db)
     genres = repo.get_genres()
     return genres
 
-@app.get("/stores")
-def get_genres(db: Session = Depends(get_session)):
+@app.get(
+    "/stores",
+    summary="Справочник магазинов",
+    description="Список магазинов/площадок, где можно купить игры. Используется для фильтрации офферов."
+)
+def get_stores(db: Session = Depends(get_session)):
     repo = StoreRepository(db)
     stores = repo.get_stores()
     return stores
