@@ -1,9 +1,8 @@
 from sqlalchemy.orm import Session, selectinload
 
-from backend.api.filters import GameFilters
-from backend.database.models import Game, Genre, Platform
-from sqlalchemy import select, ScalarResult
-from backend.database.connection import SessionLocal
+from backend.api.schemas import GameFilters
+from backend.database.models import Game, Genre, Platform, Store, Offer
+from sqlalchemy import select
 from sqlalchemy import func
 
 
@@ -25,15 +24,36 @@ class GameRepository:
         if filters is None:
             filters = GameFilters()
 
-        query = self.session.query(Game)
+        stmt = select(Game)
 
         if filters.title:
-            query = query.filter(Game.title.ilike(f"%{filters.title}%"))
+            stmt = stmt.filter(Game.title.ilike(f"%{filters.title}%"))
+
+        if filters.genres:
+            for genre_name in filters.genres:
+                stmt = stmt.filter(Game.genres.any(Genre.name == genre_name))
+
+        if filters.stores:
+            stmt = stmt.filter(Game.offers.any(Offer.store.has(Store.name.in_(filters.stores))))
+
+        if filters.platforms:
+            for genre_name in filters.genres:
+                stmt = stmt.filter(Game.genres.any(Genre.name == genre_name))
+
+        if filters.price_min:
+            stmt.filter(Game.offers.any(Offer.price_discount >= filters.min_price))
+
+        if filters.price_max:
+            stmt.filter(Game.offers.any(Offer.price_discount <= filters.price_max))
 
         if last_id > 0:
-            query = query.filter(Game.id > last_id)
+            stmt = stmt.filter(Game.id > last_id)
 
-        return query.limit(per_page).all()
+        stmt = stmt.order_by(Game.id).limit(per_page)
+
+        result = self.session.execute(stmt)
+
+        return result.scalars().all()
 
     def get_game(self, id: int):
         stmt = (
@@ -62,6 +82,14 @@ class PlatformRepository:
         result = self.session.execute(stmt).scalars().all()
         return result
 
+class StoreRepository:
+    def __init__(self, session: Session):
+        self.session = session
+
+    def get_stores(self):
+        stmt = select(Store)
+        result = self.session.execute(stmt).scalars().all()
+        return result
 
 class GenreRepository:
     def __init__(self, session: Session):
