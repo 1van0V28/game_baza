@@ -1,4 +1,3 @@
-# backend/etl/main.py
 from pathlib import Path
 from backend.database.connection import SessionLocal
 from backend.etl.json_loader.json_loader import JsonLoader
