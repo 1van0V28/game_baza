@@ -18,6 +18,7 @@ class GamesPage(BaseModel):
     total: int
     last_id: Optional[int]
     per_page: int
+    has_more: bool = False
     items: List[GamePreview]
 
 class OfferDTO(BaseModel):

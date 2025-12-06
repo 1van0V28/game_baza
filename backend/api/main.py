@@ -60,11 +60,15 @@ def get_games(
     repo = GameRepository(db)
 
     total = repo.count()
-    games = repo.get_filtered(
+    raw_games = repo.get_filtered(
         last_id=last_id,
-        per_page=per_page,
+        per_page=per_page + 1,
         filters=filters
     )
+
+    has_more = len(raw_games) > per_page
+
+    games = raw_games[:per_page]
 
     items = []
 
@@ -98,6 +102,7 @@ def get_games(
         total=total,
         last_id=next_last_id,
         per_page=per_page,
+        has_more=has_more,
         items=items,
     )
 
