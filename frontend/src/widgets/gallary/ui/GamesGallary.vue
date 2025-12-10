@@ -1,25 +1,67 @@
 <script setup lang="ts">
-import { gamesStore } from '@/entities/domain_stores/stores/domainStores'
+import { useGamesFilters } from '@/features/filters/stores/useGamesFilters'
+import { useRouter } from 'vue-router'
 import { searchGamesStore } from '@/features/search_games/stores/searchGamesStore'
+import { Routes } from '@/app/router'
+import { gamesCountExportRef } from '../refs/componentRefs'
+import { filtersQueryBuilder } from '@/features/filters/lib/filtersQueryBuilder'
+import { gamesFiltersDefinition } from '../definitions/filtersDefinitions'
+import { onMounted } from 'vue'
+import { gamesStore } from '@/entities/domain_stores/stores/domainStores'
 import GamesCard from '@/features/search_games/ui/GamesCard.vue'
 import LoadIndicator from '@/shared/ui/LoadIndicator.vue'
+
+const gamesFilters = useGamesFilters()
+
+const router = useRouter()
+
+const handleCardClick = (gameID: string) => {
+	router.push({ name: Routes.game, params: { gameID: gameID }})
+}
+
+const handleLoadMessageOverClick = () => {
+	if (!gamesCountExportRef.value) return
+
+	gamesCountExportRef.value.scrollIntoView({
+		behavior: "smooth",
+		block: "center"
+	})
+}
+
+const handleLoadButtonClick = () => {
+	const filtersQuery = filtersQueryBuilder(gamesFilters.selectedFilters.value, gamesFiltersDefinition)
+	searchGamesStore.searchGames(filtersQuery)
+}
+
+onMounted(() => {
+	if (gamesStore.data.value) return
+
+	const filtersQuery = filtersQueryBuilder(gamesFilters.selectedFilters.value, gamesFiltersDefinition)
+	searchGamesStore.searchGames(filtersQuery)
+})
 </script>
 
 <template>
 	<div class="games_gallary">
-		<template v-if="gamesStore.data.value">
-			<GamesCard 
-				v-for="game in gamesStore.data.value.games"
-				:key="game.id"
-				:game="game"/>
-		</template>
+		<GamesCard v-for="game in gamesStore.data.value?.items"
+			@click="() => { handleCardClick(game.id) }"
+			:key="game.id"
+			:game="game"/>
 		
 		<div class="load_container">
-			<div class="load_indicator" v-if="gamesStore.isPending.value">
-				<LoadIndicator :is-short="false"/>
-			</div>
-			<button v-else class="load_button" @click="() => { searchGamesStore.searchGame('') }">хочу ещё!</button>
-			<!-- <p class="load_message--over">GAMES OVER</p> -->
+			<template v-if="gamesStore.isPending.value">
+				<div class="load_indicator">
+					<LoadIndicator :is-short="false"/>
+				</div>
+			</template>
+
+			<template v-else-if="gamesStore.data.value?.has_more">
+				<button class="load_button" @click="handleLoadButtonClick">хочу ещё!</button>
+			</template>
+
+			<template v-else>
+				<p class="load_message--over" @click="handleLoadMessageOverClick">GAMES OVER</p>
+			</template>
 		</div>
 	</div>
 </template>
@@ -65,5 +107,6 @@ import LoadIndicator from '@/shared/ui/LoadIndicator.vue'
 	font-size: var(--fs_load_indicator);
 	text-decoration: underline;
 	color: var(--c_placeholder);
+	cursor: pointer;
 }
 </style>

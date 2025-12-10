@@ -5,38 +5,27 @@ import {
 	type GameOffersSelectedFilterUpdate 
 } from "../interface/FiltersStore"
 import type { GameOffersFiltersDefinition } from "../interface/FilterDefinition"
-import type { GameOffersAvailableFiltersStore } from "@/entities/domain_stores/model/Filter"
+import type { AvailableFilterItemURL, GameOffersAvailableFiltersStore } from "@/entities/domain_stores/model/Filter"
 import { useFiltersStore } from "../lib/useFiltersStore"
 import { useDomainStore } from "@/entities/domain_stores/lib/useDomainStore"
 import { gameOffersFiltersDefinition } from "@/widgets/game_offers/definitions/filtersDefinitions"
-import { fetchAvailableGameOffersFiltersAPI } from "@/entities/domain_stores/api/filtersAPI"
+import { computed } from "vue"
+import { getAvailableFilterValues } from "../lib/useFiltersProps"
+import { fetchData } from "../../../entities/domain_stores/lib/fetchData"
+import { fetchAvailableStoresFilterAPI } from "@/entities/domain_stores/api/filtersAPI"
 import { updateMultiSelectorValue } from "../lib/filtersUpdates"
 
 
 export const useGameOffersFilters = (): IGameOffersFiltersFeatureStore => {
 	const gameOffersSelectedFilters = useFiltersStore<GameOffersSelectedFiltersState, GameOffersFiltersDefinition>(gameOffersFiltersDefinition)
-	const gameOffersAvailableFilters = useDomainStore<GameOffersAvailableFiltersStore>()
+	const gameOffersAvailableStoresFilter = useDomainStore<AvailableFilterItemURL[]>()
 
-	async function fetchAvailableFilters() {
-		gameOffersAvailableFilters.setIsPending(true)
-		try {
-			const data = await fetchAvailableGameOffersFiltersAPI()
+	const gameOffersAvailableFiltersStore: GameOffersAvailableFiltersStore = {
+		stores: computed(() => getAvailableFilterValues(gameOffersAvailableStoresFilter.data.value))
+	}
 
-			const mapedData = {} as GameOffersAvailableFiltersStore
-			data.forEach((filter) => {
-				mapedData[filter.name] = filter.values
-			})
-			
-			gameOffersAvailableFilters.setData(mapedData)
-		}
-		catch (error) {
-			console.log(error)
-			const errorMessage = error instanceof Error ? error.message : String(error)
-			gameOffersAvailableFilters.setError(errorMessage)
-		}
-		finally {
-			gameOffersAvailableFilters.setIsPending(false)
-		}
+	function fetchAvailableFilters() {
+		fetchData(gameOffersAvailableStoresFilter, fetchAvailableStoresFilterAPI)
 	}
 
 	function applySelectedFilter(filter: GameOffersSelectedFilterUpdate) {
@@ -57,7 +46,7 @@ export const useGameOffersFilters = (): IGameOffersFiltersFeatureStore => {
 
 	return {
 		selectedFilters: gameOffersSelectedFilters.filters,
-		availableFilters: gameOffersAvailableFilters.data,
+		availableFilters: gameOffersAvailableFiltersStore,
 		fetchAvailableFilters,
 		applySelectedFilter,
 		resetSelectedFilters,

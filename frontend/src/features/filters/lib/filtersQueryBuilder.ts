@@ -33,8 +33,8 @@ export function filtersQueryBuilder<T extends SelectedFiltersStates>(
 				}
 				case TypeFilter.MonoSelectorRange: {
 					const filterValueRange = filterValue as RangeFilterValue
-					queryParams.append(`${filterName}-min`, String(filterValueRange[0]))
-					queryParams.append(`${filterName}-max`, String(filterValueRange[1]))
+					queryParams.append(`${filterName}_min`, String(filterValueRange[0]))
+					queryParams.append(`${filterName}_max`, String(filterValueRange[1]))
 					break
 				}
 			}

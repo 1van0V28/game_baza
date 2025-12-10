@@ -1,21 +1,15 @@
 <script setup lang="ts">
-import type { Offer } from '@/entities/domain_stores/model/Offer'
-import type { GameOffersSelectedFiltersState, SelectedFiltersStore } from '@/features/filters/interface/FiltersStore'
+import type {  SelectedFiltersStore, GameOffersSelectedFiltersState } from '@/features/filters/interface/FiltersStore'
 import { gameOffersRefKey, gameOffersExportRef } from '@/widgets/game_info/refs/componentRefs'
-import { useTemplateRef, watch, toRef } from 'vue'
+import { computed, useTemplateRef, watch } from 'vue'
+import { useSortedFilter } from '../lib/useSortedFilter'
+import { gameInfoStore } from '@/entities/domain_stores/stores/domainStores'
 import GameOfferCard from '@/features/search_game_offers/ui/GameOfferCard.vue'
 import LoadIndicator from '@/shared/ui/LoadIndicator.vue'
-import { useSortedFilter } from '../lib/useSortedFilter'
 
-const props = defineProps<{ 
-	offers?: Offer[],
-	gameOffersSelectedFilters: SelectedFiltersStore<GameOffersSelectedFiltersState>
-}>()
+const props = defineProps<{ gameOffersSelectedFilters: SelectedFiltersStore<GameOffersSelectedFiltersState>}>()
 
-const offersRef = toRef(props, "offers")
-const gameOffersSelectedFilters = toRef(props, "gameOffersSelectedFilters")
-
-const offersSorted = useSortedFilter(gameOffersSelectedFilters, offersRef)
+const offersSorted = computed(() => useSortedFilter(props.gameOffersSelectedFilters, gameInfoStore.data.value?.offers))
 
 const gameOffersRef = useTemplateRef<HTMLElement>(gameOffersRefKey)
 
@@ -23,10 +17,10 @@ watch(gameOffersRef, () => { gameOffersExportRef.value = gameOffersRef.value })
 </script>
 
 <template>
-	<div class="game_offers" :class="{ game_offers_load: !offersSorted }" :ref="gameOffersRefKey">
-		<template v-if="offers">
-			<GameOfferCard  v-for="offer in offersSorted" 
-				:key="offer.id"
+	<div class="game_offers" :class="{ game_offers_load: !offersSorted.value }" :ref="gameOffersRefKey">
+		<template v-if="offersSorted.value">
+			<GameOfferCard  v-for="offer in offersSorted.value" 
+				:key="offer.store_game_link"
 				:offer="offer" />
 		</template>
 		<LoadIndicator v-else :is-short="false"/>

@@ -1,41 +1,45 @@
+import type { GameBase, GameInfo } from "@/entities/domain_stores/model/Game"
+import { computed, ref } from "vue"
+import { gameInfoStore } from "@/entities/domain_stores/stores/domainStores"
+import { fetchData, updateFetchDataController } from "@/entities/domain_stores/lib/fetchData"
 import { fetchGameInfoAPI } from "@/entities/domain_stores/api/gamesAPI"
-import { gameInfoStore, gamesStore } from "@/entities/domain_stores/stores/domainStores"
-import { gamePreview } from "./gamePreview"
+import { searchGamesStore } from "@/features/search_games/stores/searchGamesStore"
+
+const gamePreview = ref<GameBase | undefined>()
+const gameInfoController = ref<AbortController>()
 
 
 export const useGameInfo = (gameID: string) => {
+	const gameBaseInfo = computed(() => gamePreview.value ?? gameInfoStore.data.value)
+
+	const gameInfo = computed((): GameInfo => {
+		const gameInfoData = gameInfoStore.data.value ?? {} 
+		const { offers, ...gameFullInfo } = gameInfoData
+
+		return {
+			...gameFullInfo,
+			...gameBaseInfo.value,
+		}
+	})
 
 	async function fetchGameInfo() {
-		gameInfoStore.setData(null)
-		gameInfoStore.setIsPending(true)
-		try {
-			const data = await fetchGameInfoAPI(gameID)
+		const newGameInfoController = updateFetchDataController(gameInfoController)
 
-			gameInfoStore.setData(data)
-		}
-		catch (error) {
-			console.log(error)
-			const errorMessage = error instanceof Error ? error.message : String(error)
-			gameInfoStore.setError(errorMessage)
-		}
-		finally {
-			gameInfoStore.setIsPending(false)
-		}
+		gameInfoStore.setData(null)
+		await fetchData(gameInfoStore, () => fetchGameInfoAPI(gameID, newGameInfoController))
+		gameInfoController.value = undefined
 	}
 
 	function updateGamePreview() {
-		const games = gamesStore.data.value?.games
-		
-		if (!games) return
-			
-		for (const game of games) {
-			if (game.id == gameID) {
-				gamePreview.value = game
-			}
-		}
+		if (gameID == gamePreview.value?.id) return
+
+		gamePreview.value = searchGamesStore.getGameByID(gameID)
+
+		fetchGameInfo()
 	}
 
 	return {
+		gameInfo,
 		fetchGameInfo,
 		updateGamePreview
 	}

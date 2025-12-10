@@ -1,18 +1,23 @@
-export type AvailableFiltersStore<T extends AvailableFilterName> = Record<T, string[]>
+import type { Ref } from "vue"
+
+
+export type AvailableFiltersStore<T extends AvailableFilterName> = Record<T, Ref<string[] | undefined>>
 
 export type GamesAvailableFiltersStore = AvailableFiltersStore<GamesAvailableFilterName>
 export type GameOffersAvailableFiltersStore = AvailableFiltersStore<GameOffersAvailableFilterName>
 
 
 export type AvailableFilterName = | GamesAvailableFilterName | GameOffersAvailableFilterName
-export type GamesAvailableFilterName = | "genre" | "activation"
-export type GameOffersAvailableFilterName = | "store" | "platform"
+export type GamesAvailableFilterName = | "genres" | "stores"
+export type GameOffersAvailableFilterName = | "stores"
 
 
-interface AvailableFilter<T extends AvailableFilterName> {
-	name: T,
-	values: string[]
+export interface AvailableFilterItem {
+	id: number,
+	name: string
+}
+export interface AvailableFilterItemURL extends AvailableFilterItem {
+	url: string
 }
 
-export type GamesAvailableFilter = AvailableFilter<GamesAvailableFilterName>
-export type GameOffersAvailableFilter = AvailableFilter<GameOffersAvailableFilterName>
+export type AvailableFilterItems = | AvailableFilterItem[] | AvailableFilterItemURL[]

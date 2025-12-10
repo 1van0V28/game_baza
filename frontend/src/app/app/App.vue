@@ -18,10 +18,11 @@ import "../styles/fonts.css"
   --fs_load_indicator: 2rem;
   --fs_filter_button: 1.25rem;
   --fs_selector: 1rem;
-  --fs_main_info: 2rem; 
-  --fs_genre_bar: 1rem;
+  --fs_main_info: 1.5rem; 
+  --fs_genre_bar: var(--fs_subtitle);
   --fs_game_offer_card: 1.1em;
   --fs_game_offers_title: 2rem;
+  --fs_subtitle: 1.25rem;
 
   --p_header: 0 2rem;
   --p_games_catalog: 4rem;
@@ -35,15 +36,18 @@ import "../styles/fonts.css"
   --gc_button_apply: 5;
 
   --gtc_header: 2fr 3fr 2fr;
-  --gtc_games_gallary: repeat(5, 1fr);
-  --gtc_game_info: 1fr 2fr 1fr;
-  --gtc_game_offer_card: repeat(4, 1fr);
+  --gtc_games_gallary: repeat(3, 1fr);
+  --gtc_game_info: repeat(2, 1fr);
+  --gtc_game_offer_card: repeat(3, 1fr);
+  --gtc_games_filters_block: repeat(5, 1fr);
 
   --gtr_game_offer_card: 5rem;
 
   --gap_games_gallary: 2rem;
   --gap_game_info: 2rem;
   --gap_game_offers: 1rem;
+
+  --ar_games_card__image: 1.6 / 1;
 
   --c_bg: #0B0D17;
   --c_card-bg: #1A1D2E;
@@ -68,8 +72,9 @@ import "../styles/fonts.css"
 		--h_header: 6rem;
 
 		--fs_filter_button: 1rem;
-		--fs_main_info: 1.5rem;
+		--fs_main_info: 1.25rem;
 		--fs_game_offer_card: 0.9rem;
+		--fs_subtitle: 1rem;
 
 		--w_game_info__description: 100%;
 		
@@ -84,14 +89,16 @@ import "../styles/fonts.css"
   		--gc_button_apply: 3;
 
 		--gtc_header: 1fr 5fr 1fr;
-		--gtc_games_gallary: repeat(3, 1fr);
-		--gtc_game_info: repeat(2, 1fr);
-		--gtc_game_offer_card: 1fr 1.5fr 1fr;
+		--gtc_games_gallary: repeat(2, 1fr);
+		--gtc_game_info: 1fr;
+		--gtc_game_offer_card: repeat(2, 1fr);
+		--gtc_games_filters_block: repeat(3, 1fr);
 
 		--gtr_game_offer_card: 4rem;
 
-		--gap_game_info: 1rem;
 		--gap_game_offers: 0.75rem;
+
+		--ar_games_card__image: 1.5 / 1;
 	}
 }
 @media (max-width: 600px) {
@@ -107,6 +114,7 @@ import "../styles/fonts.css"
 		--fs_main_info: 1rem; 
 		--fs_game_offer_card: 0.7em;
 		--fs_game_offers_title: 1.5rem;
+		--fs_subtitle: 0.8rem;
 
 		--p_header: 0 1rem;
 		--p_games_catalog: 1.5rem;
@@ -119,13 +127,14 @@ import "../styles/fonts.css"
   		--gc_button_apply: 2;
 
 		--gtc_header: 1fr 6fr;
-		--gtc_games_gallary: repeat(2, 1fr);
-		--gtc_game_info: 1fr;
+		--gtc_games_gallary: 1fr;
+		--gtc_games_filters_block: repeat(2, 1fr);
 
 		--gtr_game_offer_card: 3rem;
 
 		--gap_games_gallary: 1.5rem;
 		--gap_game_offers: 0.5rem;
+		--gap_game_info: 1rem;
 	}
 }
 

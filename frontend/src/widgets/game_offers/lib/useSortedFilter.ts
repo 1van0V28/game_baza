@@ -1,33 +1,30 @@
-import { computed, type Ref } from "vue"
 import type { SelectedFiltersStore, GameOffersSelectedFiltersState } from "@/features/filters/interface/FiltersStore"
 import type { Offer } from "@/entities/domain_stores/model/Offer"
+import { computed } from "vue"
 import { matchesRangeFilter, matchesMultiStringFilter } from "@/features/filters/lib/filtersMatching"
 
 
 export const useSortedFilter = (
-	gameOffersSelectedFilters: Ref<SelectedFiltersStore<GameOffersSelectedFiltersState>>,
-	offers: Ref<Offer[] | undefined>
+	gameOffersSelectedFilters: SelectedFiltersStore<GameOffersSelectedFiltersState>,
+	offers: Offer[] | undefined
 ) => {
 	const filtersState = computed(() => {
-		const {sort, ...filtersState} = gameOffersSelectedFilters.value
+		const {sort, ...filtersState} = gameOffersSelectedFilters
 
 		return filtersState
 	})
 
 	const offersFiltered = computed(() => {
-		if (!offers.value) return undefined
+		if (!offers) return undefined
 
 		const filters = filtersState.value
 
-		const offersFiltered = offers.value.filter((offer) => {
-			if (filters.price) {
-				if (!matchesRangeFilter(filters.price, offer.price)) return false
+		const offersFiltered = offers.filter((offer) => {
+			if (filters.price_discount) {
+				if (!matchesRangeFilter(filters.price_discount, offer.price_discount)) return false
 			}
-			if (filters.store) {
-				if (!matchesMultiStringFilter(filters.store, offer.store)) return false
-			}
-			if (filters.platform) {
-				if (!matchesMultiStringFilter(filters.platform, offer.platform)) return false
+			if (filters.stores) {
+				if (!matchesMultiStringFilter(filters.stores, offer.store)) return false
 			}
 
 			return true
@@ -36,13 +33,17 @@ export const useSortedFilter = (
 		return offersFiltered
 	})
 
-	const sortFilterState = computed(() => gameOffersSelectedFilters.value.sort)
+	const sortFilterState = computed(() => gameOffersSelectedFilters.sort)
 
 	const offersSorted = computed(() => {
 		if (offersFiltered.value == undefined) return undefined
 
-		if (sortFilterState.value == "cheap") return [...offersFiltered.value].sort((a, b) => a.price - b.price)
-		if (sortFilterState.value == "expensive") return [...offersFiltered.value].sort((a, b) => b.price - a.price)
+		if (sortFilterState.value == "cheap") return [...offersFiltered.value].sort(
+			(a, b) => a.price_discount - b.price_discount
+		)
+		if (sortFilterState.value == "expensive") return [...offersFiltered.value].sort(
+			(a, b) => b.price_discount - a.price_discount
+		)
 
 		return offersFiltered.value
 	})

@@ -1,9 +1,9 @@
 import { 
 	ResetBehavior, 
-	type GameOffersFiltersDefinition, 
-	type GameOffersMonoSelectorRangeDefinition, 
-	type GameOffersMonoSelectorStringDefinition, 
-	type GameOffersMultiSelectorDefinition 
+	type GameOffersMonoSelectorStringDefinition,
+	type GameOffersMonoSelectorRangeDefinition,
+	type GameOffersMultiSelectorDefinition,
+	type GameOffersFiltersDefinition
 } from "@/features/filters/interface/FilterDefinition"
 import { TypeFilter } from "@/features/filters/interface/FiltersStore"
 
@@ -22,7 +22,7 @@ export const gameOffersMonoSelectorsString: GameOffersMonoSelectorStringDefiniti
 
 export const gameOffersMonoSelectorsRange: GameOffersMonoSelectorRangeDefinition[] = [
 	{
-		name: "price",
+		name: "price_discount",
 		type: TypeFilter.MonoSelectorRange,
 		label: "Цена",
 		values: [
@@ -38,15 +38,9 @@ export const gameOffersMonoSelectorsRange: GameOffersMonoSelectorRangeDefinition
 
 export const gameOffersMultiSelectors: GameOffersMultiSelectorDefinition[] = [
 	{
-		name: "store",
+		name: "stores",
 		type: TypeFilter.MultiSelectorString,
 		label: "Магазин",
-		resetBehavior: ResetBehavior.Clear,
-	},
-	{
-		name: "platform",
-		type: TypeFilter.MultiSelectorString,
-		label: "Платформа",
 		resetBehavior: ResetBehavior.Clear,
 	}
 ]

@@ -6,20 +6,24 @@ import { useGamesFilters } from '@/features/filters/stores/useGamesFilters'
 import { searchGamesFiltersStore } from '@/features/filters/stores/filtersStores'
 import { filtersQueryBuilder } from '@/features/filters/lib/filtersQueryBuilder'
 import { searchGamesStore } from '@/features/search_games/stores/searchGamesStore'
-import { gamesFiltersDefinition, gamesMonoSelectors, gamesMultiSelectors } from '../definitions/filtersDefinitions'
+import { gamesFiltersDefinition, gamesMonoSelectors, gamesMonoSelectorsRange, gamesMultiSelectors } from '../definitions/filtersDefinitions'
 import { computed, onMounted } from 'vue'
+import GamesMonoSelectorRangeFilter from '../filters/GamesMonoSelectorRangeFilter.vue'
 
 const gamesFiltersStore = useGamesFilters()
 
-const gamesAvailableFilters = computed(() => gamesFiltersStore.availableFilters.value)
 const gamesSelectedFilters = computed(() => searchGamesFiltersStore.filters.value)
 
 const handleFiltersApply = () => {
+	searchGamesStore.resetData()
+
 	const filtersQuery = filtersQueryBuilder(searchGamesFiltersStore.filters.value, gamesFiltersDefinition)
-	searchGamesStore.searchGame(filtersQuery)
+	searchGamesStore.searchGames(filtersQuery)
 }
 
 onMounted(() => {
+	if (Object.values(gamesFiltersStore.availableFilters).some((filterValues) => filterValues.value)) return
+
 	gamesFiltersStore.fetchAvailableFilters()
 })
 </script>
@@ -32,7 +36,23 @@ onMounted(() => {
 		@apply="handleFiltersApply">
 		<template #filters_list="{ filterEmits }">
 			<div class="filters_list">
-				<GamesMonoSelectorFilter v-for="filter in gamesMonoSelectors"
+				<template v-for="filter in gamesMonoSelectors">
+					<GamesMonoSelectorFilter v-if="filter.name != 'title'"
+						:key="filter.name"
+						:name="filter.name"
+						:type="filter.type"
+						:values="filter.values"
+						:model-value="gamesSelectedFilters[filter.name]"
+						:model-active="filterEmits.modelActive"
+						:default-value="filter.defaultValue"
+						:reset-behavior="filter.resetBehavior"
+
+						:update-filter="filterEmits.updateFilter"
+						:toggle-filter="filterEmits.toggleFilter"
+						/>
+				</template>
+
+				<GamesMonoSelectorRangeFilter v-for="filter in gamesMonoSelectorsRange" 
 					:key="filter.name"
 					:name="filter.name"
 					:type="filter.type"
@@ -40,6 +60,7 @@ onMounted(() => {
 					:model-value="gamesSelectedFilters[filter.name]"
 					:model-active="filterEmits.modelActive"
 					:default-value="filter.defaultValue"
+					:label="filter.label"
 					:reset-behavior="filter.resetBehavior"
 
 					:update-filter="filterEmits.updateFilter"
@@ -50,7 +71,7 @@ onMounted(() => {
 					:key="filter.name"
 					:name="filter.name"
 					:type="filter.type"
-					:values="gamesAvailableFilters?.[filter.name]"
+					:values="gamesFiltersStore.availableFilters?.[filter.name].value"
 					:model-value="gamesSelectedFilters[filter.name]"
 					:model-active="filterEmits.modelActive"
 					:label="filter.label"
@@ -71,7 +92,7 @@ onMounted(() => {
 .filters_list {
 	padding: 1.5rem 0 var(--p_games_catalog);
 	display: grid;
-	grid-template-columns: var(--gtc_games_gallary);
+	grid-template-columns: var(--gtc_games_filters_block);
 	gap: var(--gap_games_gallary);
 	width: 100%;
 }

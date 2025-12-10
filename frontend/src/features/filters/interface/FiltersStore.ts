@@ -20,21 +20,35 @@ export type RangeFilterValue = [number, number]
 export type MultiStringFilterValue = Record<string, true> 
 
 
-export type SelectedFiltersStates = | GamesSelectedFiltersState | GameOffersSelectedFiltersState
+export type SelectedFiltersStates = 
+	| GamesSelectedFiltersState 
+	| GameOffersSelectedFiltersState
+type AvailableFiltersStates = 
+	| GamesAvailableFiltersState
+	| GameOffersAvailableFiltersState
+
 export type GamesSelectedFiltersState = {
+	title: string
 	sort: string,
-	genre: MultiStringFilterValue,
-	activation: MultiStringFilterValue
+	price: ResetFilterValue<RangeFilterValue>
+	genres: MultiStringFilterValue,
+	stores: MultiStringFilterValue
 }
 export type GameOffersSelectedFiltersState = {
 	sort: string,
-	store: MultiStringFilterValue,
-	platform: MultiStringFilterValue,
-	price: ResetFilterValue<RangeFilterValue>
+	price_discount: ResetFilterValue<RangeFilterValue>
+	stores: MultiStringFilterValue
 }
 
+type AvailableFiltersStateFor<T extends SelectedFiltersStates, A extends AvailableFilterName & keyof T> = {
+	[K in keyof T as K extends A ? K : never]: T[K]
+}
 
-export type TypeFilterFor<T extends SelectedFiltersStates, K extends keyof T> = 
+type GamesAvailableFiltersState = AvailableFiltersStateFor<GamesSelectedFiltersState, GamesAvailableFilterName>
+type GameOffersAvailableFiltersState = AvailableFiltersStateFor<GameOffersSelectedFiltersState, GameOffersAvailableFilterName>
+
+
+export type TypeFilterFor<T extends SelectedFiltersStates | AvailableFiltersStates, K extends keyof T> = 
 	T[K] extends string ? TypeFilter.MonoSelectorString :
 	T[K] extends ResetFilterValue<RangeFilterValue> ? TypeFilter.MonoSelectorRange :
 	T[K] extends MultiStringFilterValue? TypeFilter.MultiSelectorString :
@@ -45,7 +59,8 @@ export type TypeFilterName<T extends SelectedFiltersStates, KValue extends T[key
 	[K in keyof T]: T[K] extends KValue ? K : never
 }[keyof T]
 
-export type GamesMonoSelectorFilterName = TypeFilterName<GamesSelectedFiltersState, string>
+export type GamesMonoSelectorStringFilterName = TypeFilterName<GamesSelectedFiltersState, string>
+export type GamesMonoSelectorRangeFilterName = TypeFilterName<GamesSelectedFiltersState, ResetFilterValue<RangeFilterValue>>
 export type GamesMultiSelectorFilterName = TypeFilterName<GamesSelectedFiltersState, MultiStringFilterValue>
 
 export type GameOffersMonoSelectorStringFilterName = TypeFilterName<GameOffersSelectedFiltersState, string>
@@ -53,16 +68,17 @@ export type GameOffersMonoSelectorRangeFilterName = TypeFilterName<GameOffersSel
 export type GameOffersMultiSelectorFilterName = TypeFilterName<GameOffersSelectedFiltersState, MultiStringFilterValue>
 
 
-export type SelectedFilterUpdateFor<T extends SelectedFiltersStates, K extends keyof T> = 
+export type SelectedFilterUpdateFor<T extends SelectedFiltersStates | AvailableFiltersStates, K extends keyof T> = 
 	T[K] extends MultiStringFilterValue ? { name: K, type: TypeFilterFor<T, K>, value: string, isActive: boolean} :
 	T[K] extends string ? { name: K, type: TypeFilterFor<T, K>, value: string } :
 	T[K] extends ResetFilterValue<RangeFilterValue> ? { name: K, type: TypeFilterFor<T, K>, value: ResetFilterValue<RangeFilterValue>} :
 	never
-export type SelectedFilterUpdate<T extends SelectedFiltersStates> = {
+export type SelectedFilterUpdate<T extends SelectedFiltersStates | AvailableFiltersStates> = {
 	[K in keyof T]: SelectedFilterUpdateFor<T, K>
 }[keyof T]
 
 export type GamesSelectedFilterUpdate = SelectedFilterUpdate<GamesSelectedFiltersState>
+export type GamesAvailableFilterUpdate = SelectedFilterUpdate<GamesAvailableFiltersState>
 export type GameOffersSelectedFilterUpdate = SelectedFilterUpdate<GameOffersSelectedFiltersState>
 
 
@@ -77,19 +93,23 @@ export interface IBaseFiltersFeatureStore<T extends SelectedFiltersStates> {
 }
 interface IFullFiltersFeatureStore<
 	T extends AvailableFilterName,
-	K extends SelectedFiltersStates,
-> extends IBaseFiltersFeatureStore<K> {
-	availableFilters: Ref<AvailableFiltersStore<T> | null>,
-	fetchAvailableFilters: () => Promise<void>
+	S extends SelectedFiltersStates,
+	A extends AvailableFiltersStates
+> extends IBaseFiltersFeatureStore<S> {
+	availableFilters: AvailableFiltersStore<T>,
+	fetchAvailableFilters: () => void
+	applyAvailableFilter?: (filter: SelectedFilterUpdate<A>) => void
 }
 
 export type IGamesFiltersFeatureStore = IFullFiltersFeatureStore<
 	GamesAvailableFilterName, 
-	GamesSelectedFiltersState
+	GamesSelectedFiltersState,
+	GamesAvailableFiltersState
 	>
 export type IGameOffersFiltersFeatureStore = IFullFiltersFeatureStore<
 	GameOffersAvailableFilterName, 
-	GameOffersSelectedFiltersState
+	GameOffersSelectedFiltersState,
+	GameOffersAvailableFiltersState
 	>
 
 

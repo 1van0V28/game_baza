@@ -2,14 +2,15 @@ import type {
 	SelectedFiltersStates,
 	TypeFilterFor, 
 	GamesSelectedFiltersState,
-	GamesMonoSelectorFilterName,
+	GamesMonoSelectorStringFilterName,
+	GamesMonoSelectorRangeFilterName,
 	GamesMultiSelectorFilterName,
 	GameOffersSelectedFiltersState, 
 	GameOffersMonoSelectorStringFilterName,
 	GameOffersMonoSelectorRangeFilterName, 
 	GameOffersMultiSelectorFilterName, 
 	ResetFilterValue,
-	RangeFilterValue,
+	RangeFilterValue
 } from "./FiltersStore"
 
 
@@ -45,7 +46,8 @@ export type FiltersDefinitions<T extends SelectedFiltersStates> =  TypeFilterDef
 
 
 export type GamesFiltersDefinition =
-	| GamesMonoSelectorsDefinition
+	| GamesMonoSelectorsStringDefinition
+	| GamesMonoSelectorRangeDefinition
 	| GamesMultiSelectorsDefinition
 export type GameOffersFiltersDefinition = 
 	| GameOffersMonoSelectorStringDefinition
@@ -53,11 +55,16 @@ export type GameOffersFiltersDefinition =
 	| GameOffersMultiSelectorDefinition
 
 
-export type GamesMonoSelectorsDefinition = TypeFilterDefinition<
+export type GamesMonoSelectorsStringDefinition = TypeFilterDefinition<
 	string[],
 	GamesSelectedFiltersState,
-	GamesMonoSelectorFilterName
+	GamesMonoSelectorStringFilterName
 	>
+export type GamesMonoSelectorRangeDefinition = TypeFilterDefinitionResetClear<
+	ResetFilterValue<RangeFilterValue>[],
+	GamesSelectedFiltersState,
+	GamesMonoSelectorRangeFilterName
+	> 
 export type GamesMultiSelectorsDefinition = TypeFilterDefinitionResetClear<
 	string[],
 	GamesSelectedFiltersState,

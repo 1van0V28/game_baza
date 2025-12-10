@@ -1,8 +1,6 @@
 export interface Offer {
-	id: string,
 	store: string,
-	imgStoreURL: string,
-	offerURL: string,
-	platform: string,
-	price: number
+    price_original: number,
+    price_discount: number,
+    store_game_link: string
 }

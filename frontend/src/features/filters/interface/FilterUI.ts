@@ -4,13 +4,14 @@ import type {
 	GamesSelectedFiltersState, 
 	SelectedFilterUpdate, 
 	GameOffersSelectedFiltersState,
-	GamesMonoSelectorFilterName,
+	GamesMonoSelectorStringFilterName,
+	GamesMonoSelectorRangeFilterName, 
+	GamesMultiSelectorFilterName,
 	GameOffersMonoSelectorStringFilterName,
 	ResetFilterValue,
 	RangeFilterValue,
 	GameOffersMonoSelectorRangeFilterName,
-	GamesMultiSelectorFilterName,
-	GameOffersMultiSelectorFilterName, 
+	GameOffersMultiSelectorFilterName
 } from "./FiltersStore"
 import type { TypeFilterDefinition, TypeFilterDefinitionResetClear } from "./FilterDefinition"
 
@@ -29,11 +30,16 @@ type IFilterPropsResetClear<T, K extends SelectedFiltersStates, KName extends ke
 	& TypeFilterDefinitionResetClear<T, K, KName>
 	
 
-export type IGamesMonoSelectorFiltersProps = IFilterProps<
+export type IGamesMonoSelectorStringFiltersProps = IFilterProps<
 	string[], 
 	GamesSelectedFiltersState, 
-	GamesMonoSelectorFilterName
+	GamesMonoSelectorStringFilterName
 	>
+export type IGamesMonoSelectorRangeFiltersProps = IFilterPropsResetClear<
+	ResetFilterValue<RangeFilterValue>[],
+	GamesSelectedFiltersState,
+	GamesMonoSelectorRangeFilterName
+>
 export type IGamesMultiSelectorFiltersProps = IFilterPropsResetClear<
 	string[], 
 	GamesSelectedFiltersState, 

@@ -1,23 +1,38 @@
 <script setup lang="ts">
+import { TypeFilter } from '@/features/filters/interface/FiltersStore'
 import { ref } from 'vue'
 import { searchGamesStore } from '@/features/search_games/stores/searchGamesStore'
+import { useGamesFilters } from '@/features/filters/stores/useGamesFilters'
+import { filtersQueryBuilder } from '@/features/filters/lib/filtersQueryBuilder'
+import { searchGamesFiltersStore } from '@/features/filters/stores/filtersStores'
+import { gamesFiltersDefinition } from '@/widgets/gallary/definitions/filtersDefinitions'
 import SiteLogo from '@/shared/ui/SiteLogo.vue'
 import SearchBar from '@/shared/ui/SearchBar.vue'
+
+const props = defineProps<{ hasSearchBar: boolean }>()
 
 const searchInput = ref("")
 
 const handleSearch = () => {
 	if (!searchInput.value) return
 
+	const gamesFilters = useGamesFilters()
+	gamesFilters.applySelectedFilter({
+		name: "title",
+		type: TypeFilter.MonoSelectorString,
+    	value: searchInput.value
+	})
+
 	searchGamesStore.resetData()
-	searchGamesStore.searchGame(searchInput.value.trim())
+	const filtersQuery = filtersQueryBuilder(searchGamesFiltersStore.filters.value, gamesFiltersDefinition)
+	searchGamesStore.searchGames(filtersQuery)
 }
 </script>
 
 <template>
 	<div class="header">
 		<SiteLogo />
-		<SearchBar 
+		<SearchBar v-if="props.hasSearchBar"
 			v-model="searchInput" 
 			placeholder="Игра..."
 			@search_click="handleSearch"/>

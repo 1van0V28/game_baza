@@ -1,63 +1,33 @@
-import type { GamesAvailableFilter, GameOffersAvailableFilter } from "../model/Filter"
+import type { AvailableFilterItem, AvailableFilterItemURL } from "../model/Filter"
 
 
-export const gamesFilters: GamesAvailableFilter[] = [
-	{
-		name: "genre",
-		values: [
-			"races", 
-			"indie", 
-			"casual", 
-			"online", 
-			"subscription",
-			"adventures",
-			"role-playing",
-			"simualtors",
-			"sport",
-			"strategies",
-			"action"
-		],
-	},
-	{
-		name: "activation",
-		values: [
-			"Battle.net",
-			"EA App",
-			"Epic Games Store",
-			"GOG.com",
-			"itch.io",
-			"Microsoft",
-			"more.tv",
-			"Nintendo eShop",
-			"Okko",
-			"Rockstar Games",
-			"STALCRAFT",
-			"Steam",
-			"Ubisoft Connect",
-			"CTC"
-		]
-	}
+export const gamesAvailableGenresFilter: AvailableFilterItem[] = [
+  	{ id: 1, name: "races" },
+  	{ id: 2, name: "indie" },
+  	{ id: 3, name: "casual" },
+  	{ id: 4, name: "online" },
+  	{ id: 5, name: "subscription" },
+  	{ id: 6, name: "adventures" },
+  	{ id: 7, name: "role-playing" },
+  	{ id: 8, name: "simualtors" },
+  	{ id: 9, name: "sport" },
+  	{ id: 10, name: "strategies" },
+  	{ id: 11, name: "action" }
 ]
 
-export const gameOffersFilters: GameOffersAvailableFilter[] = [
-	{
-		name: "store",
-		values: [
-			"Steam",
-			"Epic Games Store",
-			"GOG.com",
-			"VK Play"
-		]
-	},
-	{
-		name: "platform",
-		values: [
-			"PC",
-			"PS4",
-			"PS5",
-			"Nintento Switch",
-			"XBOX ONE",
-			"XBOX Series"
-		]
-	}
+export const gamesAvailableStoresFilter: AvailableFilterItemURL[] = [
+	{ id: 1, name: "Battle.net", url: "https://battle.net" },
+	{ id: 2, name: "EA App", url: "https://ea.com/ea-app" },
+	{ id: 3, name: "Epic Games Store", url: "https://store.epicgames.com" },
+	{ id: 4, name: "GOG.com", url: "https://gog.com" },
+	{ id: 5, name: "itch.io", url: "https://itch.io" },
+	{ id: 6, name: "Microsoft", url: "https://microsoft.com" },
+	{ id: 7, name: "more.tv", url: "https://more.tv" },
+	{ id: 8, name: "Nintendo eShop", url: "https://nintendo.com/eshop" },
+	{ id: 9, name: "Okko", url: "https://okko.tv" },
+	{ id: 10, name: "Rockstar Games", url: "https://rockstargames.com" },
+	{ id: 11, name: "STALCRAFT", url: "https://stalcraft.net" },
+	{ id: 12, name: "Steam", url: "https://store.steampowered.com" },
+	{ id: 13, name: "Ubisoft Connect", url: "https://ubisoftconnect.com" },
+	{ id: 14, name: "CTC", url: "https://ctc.ru" }
 ]

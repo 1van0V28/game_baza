@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { IGameOffersMonoSelectorRangeFilterProps } from '@/features/filters/interface/FilterUI'
-import { getRangeFilterValueTranslate, getTranslateMap, useSelectorFiltersProps } from '@/features/filters/lib/useFiltersProps'
+import type { IGamesMonoSelectorRangeFiltersProps } from '@/features/filters/interface/FilterUI'
+import { useSelectorFiltersProps, getTranslateMap, getRangeFilterValueTranslate } from '@/features/filters/lib/useFiltersProps'
 import MonoSelectorFilter from '@/features/filters/ui/MonoSelectorFilter.vue'
 
-const props = defineProps<IGameOffersMonoSelectorRangeFilterProps>()
+const props = defineProps<IGamesMonoSelectorRangeFiltersProps>()
 
 const monoSelectorFilterProps = useSelectorFiltersProps(props)
 

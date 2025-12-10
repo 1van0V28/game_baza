@@ -1,13 +1,19 @@
 import { 
 	ResetBehavior,
-	type GamesMonoSelectorsDefinition, 
+	type GamesMonoSelectorsStringDefinition, 
 	type GamesMultiSelectorsDefinition,
-	type GamesFiltersDefinition, 
+	type GamesFiltersDefinition,
+	type GamesMonoSelectorRangeDefinition, 
 } from "@/features/filters/interface/FilterDefinition"
 import { TypeFilter } from "@/features/filters/interface/FiltersStore"
 
 
-export const gamesMonoSelectors: GamesMonoSelectorsDefinition[] = [
+export const gamesMonoSelectors: GamesMonoSelectorsStringDefinition[] = [
+	{
+		name: "title",
+		type: TypeFilter.MonoSelectorString,
+		resetBehavior: ResetBehavior.None
+	},
 	{
 		name: "sort",
 		type: TypeFilter.MonoSelectorString,
@@ -26,22 +32,39 @@ export const gamesMonoSelectors: GamesMonoSelectorsDefinition[] = [
 	},
 ]
 
+export const gamesMonoSelectorsRange: GamesMonoSelectorRangeDefinition[] = [
+	{
+		name: "price",
+		type: TypeFilter.MonoSelectorRange,
+		label: "Цена",
+		values: [
+			undefined,
+			[0, 1000],
+			[1000, 3000],
+			[3000, 6000],
+			[6000, 0] 
+		],
+		resetBehavior: ResetBehavior.Clear,
+	}
+]
+
 export const gamesMultiSelectors: GamesMultiSelectorsDefinition[] = [
 	{
-		name: "genre",
+		name: "genres",
 		type: TypeFilter.MultiSelectorString,
 		label: "Жанр",
 		resetBehavior: ResetBehavior.Clear
 	},
 	{
-		name: "activation",
+		name: "stores",
 		type: TypeFilter.MultiSelectorString,
-		label: "Активация",
+		label: "Магазин",
 		resetBehavior: ResetBehavior.Clear
 	}
 ]
 
 export const gamesFiltersDefinition: GamesFiltersDefinition[][] = [
 	gamesMonoSelectors,
+	gamesMonoSelectorsRange,
 	gamesMultiSelectors
 ]

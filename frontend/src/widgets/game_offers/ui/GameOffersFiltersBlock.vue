@@ -9,7 +9,6 @@ import GameOffersMultiSelectorFilter from '../filters/GameOffersMultiSelectorFil
 
 const props = defineProps<{ gameOffersFiltersStore: IGameOffersFiltersFeatureStore }>()
 
-const gameOffersAvailableFilters = computed(() => props.gameOffersFiltersStore.availableFilters)
 const gameOffersSelectedFilters = computed(() => props.gameOffersFiltersStore.selectedFilters)
 
 onMounted(() => {
@@ -35,7 +34,8 @@ onMounted(() => {
 					:reset-behavior="filter.resetBehavior"
 
 					:update-filter="filterEmits.updateFilter"
-					:toggle-filter="filterEmits.toggleFilter"/>
+					:toggle-filter="filterEmits.toggleFilter"
+					/>
 
 				<GameOffersMonoSelectorRangeFilter v-for="filter in gameOffersMonoSelectorsRange"
 					:key="filter.name"
@@ -49,13 +49,14 @@ onMounted(() => {
 					:reset-behavior="filter.resetBehavior"
 
 					:update-filter="filterEmits.updateFilter"
-					:toggle-filter="filterEmits.toggleFilter"/>
+					:toggle-filter="filterEmits.toggleFilter"
+					/>
 
 				<GameOffersMultiSelectorFilter v-for="filter in gameOffersMultiSelectors"
 					:key="filter.name"
 					:name="filter.name"
 					:type="filter.type"
-					:values="gameOffersAvailableFilters.value?.[filter.name]"
+					:values="gameOffersFiltersStore.availableFilters[filter.name].value"
 					:model-value="gameOffersSelectedFilters?.value[filter.name]"
 					:model-active="filterEmits.modelActive"
 					:label="filter.label"
@@ -75,7 +76,7 @@ onMounted(() => {
 .filters_list {
 	padding: 0 0 calc(var(--p_games_catalog) / 2);
 	display: grid;
-	grid-template-columns: var(--gtc_games_gallary);
+	grid-template-columns: var(--gtc_games_filters_block);
 	gap: var(--gap_games_gallary);
 	width: 100%;
 }

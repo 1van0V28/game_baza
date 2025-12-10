@@ -2,15 +2,21 @@
 import HomeHeader from '@/widgets/header/ui/HomeHeader.vue'
 import GamesFiltersBlock from '@/widgets/gallary/ui/GamesFiltersBlock.vue'
 import GamesGallary from '@/widgets/gallary/ui/GamesGallary.vue'
+import { useTemplateRef, watch } from 'vue'
+import { gamesCountRefKey, gamesCountExportRef } from '@/widgets/gallary/refs/componentRefs'
 import { gamesStore } from '@/entities/domain_stores/stores/domainStores'
+
+const gamesCatalogRef = useTemplateRef<HTMLElement>(gamesCountRefKey)
+
+watch(gamesCatalogRef, () => { gamesCountExportRef.value = gamesCatalogRef.value })
 </script>
 
 <template>
-	<HomeHeader />
+	<HomeHeader :has-search-bar="true" />
 	<section class="games_catalog">
-		<h2 class="games_count">
+		<h2 class="games_count" :ref="gamesCountRefKey">
 			КАТАЛОГ ИГР
-			<span class="games_count--highlight">{{ gamesStore.data.value?.gamesCount ?? 0 }}</span>
+			<span class="games_count--highlight">{{ gamesStore.data.value?.total ?? 0 }}</span>
 		</h2>
 
 		<GamesFiltersBlock />

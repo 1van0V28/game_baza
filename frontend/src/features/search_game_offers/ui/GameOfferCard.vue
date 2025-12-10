@@ -1,22 +1,39 @@
 <script setup lang="ts">
 import type { Offer } from '@/entities/domain_stores/model/Offer'
+import { TypeFilter } from '@/features/filters/interface/FiltersStore'
+import { useRouter } from 'vue-router'
+import { useGamesFilters } from '@/features/filters/stores/useGamesFilters'
+import { searchGamesStore } from '@/features/search_games/stores/searchGamesStore'
+
+const router = useRouter()
 
 const props = defineProps<{ offer: Offer }>()
 
+const handleStoreClick = () => {
+	const gamesFilters = useGamesFilters()
+
+	gamesFilters.resetSelectedFilters()
+	gamesFilters.applyAvailableFilter?.({ 
+		name: "stores", 
+		type: TypeFilter.MultiSelectorString,  
+		value: props.offer.store, 
+		isActive: true
+	})
+
+	searchGamesStore.resetData()
+
+	router.back()
+}
+
 const handleCardClick = () => {
-	window.open(props.offer.offerURL)
+	window.open(props.offer.store_game_link)
 }
 </script>
 
 <template>
 	<div class="game_offer_card">
-		<img 
-			class="store_image"
-			alt="Логотип магазина"
-			:src="props.offer.imgStoreURL"
-		/>
-		<p class="platform">{{ props.offer.platform }}</p>
-		<div class="price" @click="handleCardClick">{{ props.offer.price }}<span class="price--highlight">₽</span></div>
+		<button class="button_store" @click="handleStoreClick">{{ props.offer.store }}</button>
+		<div class="price" @click="handleCardClick">{{ props.offer.price_discount }}<span class="price--highlight">₽</span></div>
 		<button class="button_buy" @click="handleCardClick">купить</button>
 	</div>
 </template>
@@ -29,41 +46,48 @@ const handleCardClick = () => {
 	text-align: center;
 	grid-template-columns: var(--gtc_game_offer_card);
 	grid-template-rows: var(--gtr_game_offer_card);
-	gap: 0.5rem;
 	width: 100%;
+	border: 4px solid var(--c_card-bg);
 	background-color: var(--c_card-bg);
 	font-size: var(--fs_game_offer_card);
 }
 
-.store_image {
-	width: 75%;
-	height: 75%;
-	object-fit: contain;
-	object-position: center;
+.button_store,
+.button_buy {
+	align-self: stretch;
+	width: 100%;
+	height: 100%;
+	border: none;
+	font-family: 'Press Start 2P', sans-serif;
+	font-size: var(--fs_game_offer_card);
+	cursor: pointer;
 }
 
-.platform {
+.button_store {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	background-color: var(--c_card-bg);
 	color: var(--c_secondary2-accent);
 }
 
 .price {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
 	pointer-events: none;
 	color: var(--c_text);
+	background-color: var(--c_bg);
 }
 .price--highlight {
 	padding: 0 0 0 calc(var(--fs_game_offer_card) / 2)
 }
 
 .button_buy {
-	align-self: stretch;
-	width: 100%;
-	height: 100%;
 	background-color: var(--c_highlight-accent);
-	border: none;
-	font-family: 'Press Start 2P', sans-serif;
-	font-size: var(--fs_game_offer_card);
 	transition: color 0.1s ease-out;
-	cursor: pointer;
 }
 
 .button_buy:active,

@@ -2,9 +2,9 @@ import type { GamesCatalogData, GameFull } from "../model/Game"
 import { mockGamesData, mockGameInfoData } from "./mockGames"
 
 
-export const searchGameAPI = async (searchInput: string): Promise<GamesCatalogData> => {
+export const searchGameAPI = async (last_id: number, filtersQuery: string, abortController: AbortController): Promise<GamesCatalogData> => {
 	console.log("searchGameAPI выполняется...")
-	return fetch(`/api/games?search=${searchInput}`)
+	return fetch("", { signal: abortController.signal }) //http://127.0.0.1:8000/games?last_id=${last_id}&per_page=50&${filtersQuery}
 		.then((response) => {
 			if (!response.ok) {
 				throw new Error(`Ошибка searchGameAPI: ${response.status}`)
@@ -19,9 +19,9 @@ export const searchGameAPI = async (searchInput: string): Promise<GamesCatalogDa
 		})
 }
 
-export const fetchGameInfoAPI = async (gameID: string): Promise<GameFull> => {
+export const fetchGameInfoAPI = async (gameID: string, abortController: AbortController): Promise<GameFull> => {
 	console.log("fetchGameInfoAPI выполняется...")
-	return fetch(`/api/gamesInfo?id=${gameID}`)
+	return fetch("", { signal: abortController.signal }) //http://127.0.0.1:8000/games/${gameID}
 		.then((response) => {
 			if (!response.ok) {
 				throw new Error(`Ошибка fetchGameInfoAPI: ${response.status}`)

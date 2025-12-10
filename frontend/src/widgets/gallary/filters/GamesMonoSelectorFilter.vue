@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { IGamesMonoSelectorFiltersProps } from '@/features/filters/interface/FilterUI'
+import type { IGamesMonoSelectorStringFiltersProps } from '@/features/filters/interface/FilterUI'
 import { useSelectorFiltersProps } from '@/features/filters/lib/useFiltersProps'
 import MonoSelectorFilter from '@/features/filters/ui/MonoSelectorFilter.vue'
 
-const props = defineProps<IGamesMonoSelectorFiltersProps>()
+const props = defineProps<IGamesMonoSelectorStringFiltersProps>()
 
 const monoSelectorFilterProps = useSelectorFiltersProps(props)
 

@@ -1,29 +1,19 @@
 <script setup lang="ts">
 import type { GameBase } from '@/entities/domain_stores/model/Game'
-import { useRouter } from 'vue-router'
-import { Routes } from '@/app/router'
 
 const { game } = defineProps<{ game: GameBase }>()
-
-const router = useRouter()
-
-const handleCardClick = () => {
-	router.push({ name: Routes.game, params: { gameID: game.id }})
-}
 </script>
 
 <template>
-	<div @click="handleCardClick" class="games_card">
+	<div class="games_card">
 		<img 
 			class="game_image"
 			alt="обложка игры"
-			:src="game.imgURL"
-			width="100%"
-			height="66.6%"
+			:src="game.image_url"
 			/>
 		<div class="info_container">
 			<p class="title">{{ game.title }}</p>
-			<p>от<span class="min_price--highlight">{{ game.minPrice }}₽</span></p>
+			<p>от<span class="min_price--highlight">{{ game.min_price_discount }}₽</span></p>
 		</div>
 	</div>
 </template>
@@ -35,8 +25,8 @@ const handleCardClick = () => {
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
+	aspect-ratio: var(--ar_games_card__image);
 	width: 100%;
-	aspect-ratio: 16 / 26;
 	border: 4px solid var(--c_highlight-accent);
 	box-shadow: 
 		0 0 2px rgba(255, 204, 51, 0.8),
@@ -47,8 +37,10 @@ const handleCardClick = () => {
 }
 
 .game_image {
+	width: 100%;
 	object-fit: cover;
 	object-position: center;
+	aspect-ratio: 2.65 / 1;
 }
 
 .info_container {
@@ -64,7 +56,7 @@ const handleCardClick = () => {
 .title {
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 3;
+	-webkit-line-clamp: 2;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
