@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { TypeFilter } from '@/features/filters/interface/FiltersStore'
 import { ref } from 'vue'
-import { searchGamesStore } from '@/features/search_games/stores/searchGamesStore'
+import { useRoute, useRouter } from 'vue-router'
 import { useGamesFilters } from '@/features/filters/stores/useGamesFilters'
+import { searchGamesStore } from '@/features/search_games/stores/searchGamesStore'
+import { Routes } from '@/app/router'
+import { TypeFilter } from '@/features/filters/interface/FiltersStore'
 import { filtersQueryBuilder } from '@/features/filters/lib/filtersQueryBuilder'
 import { searchGamesFiltersStore } from '@/features/filters/stores/filtersStores'
 import { gamesFiltersDefinition } from '@/widgets/gallary/definitions/filtersDefinitions'
@@ -13,19 +15,29 @@ const props = defineProps<{ hasSearchBar: boolean }>()
 
 const searchInput = ref("")
 
-const handleSearch = () => {
-	if (!searchInput.value) return
+const route = useRoute()
+const router = useRouter()
 
-	const gamesFilters = useGamesFilters()
-	gamesFilters.applySelectedFilter({
-		name: "title",
-		type: TypeFilter.MonoSelectorString,
-    	value: searchInput.value
-	})
+const gamesFilters = useGamesFilters()
+
+const handleSearch = () => {
+	if (!gamesFilters.selectedFilters.value.title) return
 
 	searchGamesStore.resetData()
-	const filtersQuery = filtersQueryBuilder(searchGamesFiltersStore.filters.value, gamesFiltersDefinition)
-	searchGamesStore.searchGames(filtersQuery)
+
+	if (route.name != Routes.home) {
+		searchInput.value = gamesFilters.selectedFilters.value.title
+		gamesFilters.resetSelectedFilters()
+		gamesFilters.applySelectedFilter({
+			name: "title",
+			type: TypeFilter.MonoSelectorString,
+			value: searchInput.value
+		})
+		router.back()
+	} else {
+		const filtersQuery = filtersQueryBuilder(searchGamesFiltersStore.filters.value, gamesFiltersDefinition)
+		searchGamesStore.searchGames(filtersQuery)
+	}
 }
 </script>
 
@@ -33,7 +45,7 @@ const handleSearch = () => {
 	<div class="header">
 		<SiteLogo />
 		<SearchBar v-if="props.hasSearchBar"
-			v-model="searchInput" 
+			v-model="gamesFilters.selectedFilters.value.title" 
 			placeholder="Игра..."
 			@search_click="handleSearch"/>
 	</div>

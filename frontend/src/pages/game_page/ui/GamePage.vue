@@ -18,7 +18,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<HomeHeader :has-search-bar="false" />
+	<HomeHeader :has-search-bar="true" />
 	<div class="page_container">
 		<GameInfo :game-info="gameInfo.gameInfo.value"/>
 		<section class="display">

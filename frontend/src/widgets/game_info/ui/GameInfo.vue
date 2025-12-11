@@ -14,6 +14,8 @@ const props = defineProps<{ gameInfo: GameInfo }>()
 
 const router = useRouter()
 
+const gamesFilters = useGamesFilters()
+
 const date = computed(() => {
 	if (!props.gameInfo.release_date) return
 
@@ -38,8 +40,6 @@ const handleButtonScrollClick = () => {
 }
 
 const handleGenreBarClick = (genre: string) => {
-	const gamesFilters = useGamesFilters()
-
 	gamesFilters.resetSelectedFilters()
 	gamesFilters.applyAvailableFilter?.({ 
 		name: "genres", 

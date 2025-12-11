@@ -12,7 +12,7 @@ export const gamesMonoSelectors: GamesMonoSelectorsStringDefinition[] = [
 	{
 		name: "title",
 		type: TypeFilter.MonoSelectorString,
-		resetBehavior: ResetBehavior.None
+		resetBehavior: ResetBehavior.Clear
 	},
 	{
 		name: "sort",
