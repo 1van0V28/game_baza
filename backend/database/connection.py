@@ -1,3 +1,5 @@
+from contextlib import contextmanager
+
 from backend.config.config import config
 from sqlalchemy import create_engine, text, MetaData
 from sqlalchemy.orm import sessionmaker
@@ -11,7 +13,8 @@ engine = create_engine(
 
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
-def get_session():
+@contextmanager
+def get_session_manager():
     session = SessionLocal()
     try:
         yield session
@@ -21,3 +24,7 @@ def get_session():
         raise
     finally:
         session.close()
+
+def get_session():
+    with get_session_manager() as session:
+        yield session

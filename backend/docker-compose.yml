@@ -1,0 +1,30 @@
+services:
+  my_postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: postgres
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    container_name: fastapi_app
+    working_dir: /app
+    env_file:
+      - ../.env.docker
+    depends_on:
+      - my_postgres
+    ports:
+      - "8000:8000"
+    command: uvicorn backend.api.main:app --host 0.0.0.0 --port 8000 --reload
+
+
+volumes:
+  postgres_data:
+
+

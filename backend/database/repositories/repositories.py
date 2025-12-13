@@ -69,7 +69,6 @@ class GameRepository:
         return result
 
     def count(self):
-        from sqlalchemy import func
         return self.session.execute(select(func.count(Game.id))).scalar()
 
 

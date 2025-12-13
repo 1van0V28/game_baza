@@ -1,11 +1,7 @@
 from backend.database.connection import engine
 from backend.database.models import Base
 from backend.seeds.seeds import seed_stores
-from backend.database.connection import get_session
-# from sqlalchemy.schema import CreateTable
-# from pathlib import Path
-
-# SCHEMA_PATH = Path(__file__).resolve().parents[1] / "schemas" / "schema.sql"
+from backend.database.connection import get_session_manager
 
 def create_tables():
     Base.metadata.drop_all(engine)
@@ -13,10 +9,5 @@ def create_tables():
 
     from backend.seeds.seeds import seed_stores
 
-    with get_session() as session:
+    with get_session_manager() as session:
         seed_stores(session)
-
-    # with open(SCHEMA_PATH, "w", encoding="utf-8") as f:
-    #     for table in Base.metadata.sorted_tables:
-    #         f.write(str(CreateTable(table).compile(engine)))
-    #         f.write(";\n\n")
