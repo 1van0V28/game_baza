@@ -82,12 +82,11 @@ def full_pipeline(skip_parsers):
         sys.exit(1)
 
 
-@cli.command()
-def status():
-    """Check database and ETL status."""
-    click.echo("Проверка статуса...")
-    # TODO: добавить проверки
-    click.echo("Статус: OK")
+# @cli.command()
+# def status():
+#     """Check database and ETL status."""
+#     click.echo("Проверка статуса...")
+#     click.echo("Статус: OK")
 
 
 if __name__ == "__main__":
