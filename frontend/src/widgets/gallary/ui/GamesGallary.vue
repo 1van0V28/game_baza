@@ -3,7 +3,6 @@ import { useGamesFilters } from '@/features/filters/stores/useGamesFilters'
 import { useRouter } from 'vue-router'
 import { searchGamesStore } from '@/features/search_games/stores/searchGamesStore'
 import { Routes } from '@/app/router'
-import { gamesCountExportRef } from '../refs/componentRefs'
 import { filtersQueryBuilder } from '@/features/filters/lib/filtersQueryBuilder'
 import { gamesFiltersDefinition } from '../definitions/filtersDefinitions'
 import { onMounted } from 'vue'
@@ -17,15 +16,6 @@ const router = useRouter()
 
 const handleCardClick = (gameID: string) => {
 	router.push({ name: Routes.game, params: { gameID: gameID }})
-}
-
-const handleLoadMessageOverClick = () => {
-	if (!gamesCountExportRef.value) return
-
-	gamesCountExportRef.value.scrollIntoView({
-		behavior: "smooth",
-		block: "center"
-	})
 }
 
 const handleLoadButtonClick = () => {
@@ -60,7 +50,7 @@ onMounted(() => {
 			</template>
 
 			<template v-else>
-				<p class="load_message--over" @click="handleLoadMessageOverClick">GAMES OVER</p>
+				<p class="load_message--over">GAMES OVER</p>
 			</template>
 		</div>
 	</div>
@@ -107,6 +97,6 @@ onMounted(() => {
 	font-size: var(--fs_load_indicator);
 	text-decoration: underline;
 	color: var(--c_placeholder);
-	cursor: pointer;
+	user-select: none;
 }
 </style>

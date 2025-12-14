@@ -64,8 +64,12 @@ const handleSearch = () => {
 	place-items: center;
   	background-color: rgba(11, 13, 23, 0.7);
   	border-bottom: 2px solid var(--c_secondary2); 
-  	box-shadow: 0 0 10px var(--c_secondary2), 
-				0 0 20px var(--c_secondary2);
+  	box-shadow:
+		0 0 6px var(--c_secondary2),
+		0 0 12px var(--c_secondary2),
+		0 0 18px var(--c_secondary2),
+		0 0 24px var(--c_secondary2),
+		0 0 30px rgba(102, 0, 153, 0.4);
   	backdrop-filter: blur(4px);
   	-webkit-backdrop-filter: blur(4px);
 }

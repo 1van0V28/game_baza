@@ -23,6 +23,7 @@ import "../styles/fonts.css"
   --fs_game_offer_card: 1.1em;
   --fs_game_offers_title: 2rem;
   --fs_subtitle: 1.25rem;
+  --fs_floated_button: 2.5rem;
 
   --p_header: 0 2rem;
   --p_games_catalog: 4rem;
@@ -75,6 +76,7 @@ import "../styles/fonts.css"
 		--fs_main_info: 1.25rem;
 		--fs_game_offer_card: 0.9rem;
 		--fs_subtitle: 1rem;
+		--fs_floated_button: 2rem;
 
 		--w_game_info__description: 100%;
 		
@@ -115,6 +117,7 @@ import "../styles/fonts.css"
 		--fs_game_offer_card: 0.7em;
 		--fs_game_offers_title: 1.5rem;
 		--fs_subtitle: 0.8rem;
+		--fs_floated_button: 1.5rem;
 
 		--p_header: 0 1rem;
 		--p_games_catalog: 1.5rem;
