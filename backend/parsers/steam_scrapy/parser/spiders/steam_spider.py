@@ -16,7 +16,7 @@ class SteamSpider(scrapy.Spider):
         "LOG_LEVEL": "DEBUG",
         "FEED_EXPORT_ENCODING": "utf-8",
         "FEEDS": {
-            "../steam_games.jsonl": {
+            "../../steam_games.jsonl": {
                 "format": "jsonlines",
                 "encoding": "utf-8",
                 "overwrite": True,
