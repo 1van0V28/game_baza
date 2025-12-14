@@ -13,7 +13,8 @@ const { game } = defineProps<{ game: GameBase }>()
 			/>
 		<div class="info_container">
 			<p class="title">{{ game.title }}</p>
-			<p>от<span class="min_price--highlight">{{ game.min_price_discount }}₽</span></p>
+			<p v-if="game.min_price_discount == 0">бесплатно</p>
+			<p v-else>от<span class="min_price--highlight">{{ game.min_price_discount }}₽</span></p>
 		</div>
 	</div>
 </template>

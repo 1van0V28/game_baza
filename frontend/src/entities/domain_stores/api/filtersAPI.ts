@@ -3,7 +3,7 @@ import type { AvailableFilterItem, AvailableFilterItemURL } from "../model/Filte
 
 export const fetchAvailableGenresFilterAPI = async (): Promise<AvailableFilterItem[]> => {
 	console.log("fetchAvailableGenresFilterAPI выполняется...")
-	return fetch("http://127.0.0.1:8000/genres", { method: "GET"})
+	return fetch("http://127.0.0.1:8000/genres", { method: "GET" })
 		.then((response) => {
 			if (!response.ok) {
 				throw new Error(`Ошибка fetchAvailableGenresFilterAPI: ${response.status}`)

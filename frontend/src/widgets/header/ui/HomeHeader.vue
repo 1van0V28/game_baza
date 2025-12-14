@@ -24,15 +24,16 @@ const handleSearch = () => {
 	if (!gamesFilters.selectedFilters.value.title) return
 
 	searchGamesStore.resetData()
+	
+	searchInput.value = gamesFilters.selectedFilters.value.title
+	gamesFilters.resetSelectedFilters()
+	gamesFilters.applySelectedFilter({
+		name: "title",
+		type: TypeFilter.MonoSelectorString,
+		value: searchInput.value
+	})
 
 	if (route.name != Routes.home) {
-		searchInput.value = gamesFilters.selectedFilters.value.title
-		gamesFilters.resetSelectedFilters()
-		gamesFilters.applySelectedFilter({
-			name: "title",
-			type: TypeFilter.MonoSelectorString,
-			value: searchInput.value
-		})
 		router.back()
 	} else {
 		const filtersQuery = filtersQueryBuilder(searchGamesFiltersStore.filters.value, gamesFiltersDefinition)

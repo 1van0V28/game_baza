@@ -79,7 +79,14 @@ const handleGenreBarClick = (genre: string) => {
 				</div>	
 
 				<div class="min_price">
-					от<span class="min_price--highlight">{{ props.gameInfo.min_price_discount }}<TextSkeleton v-if="!props.gameInfo.min_price_discount" class="min_price__skeleton"/><span :class="{ min_price__value: !props.gameInfo.min_price_discount }">₽</span></span>
+					<p v-if="props.gameInfo.min_price_discount == 0">бесплатно</p>
+					<p v-else>от
+						<span class="min_price--highlight">
+							<template v-if="props.gameInfo.min_price_discount">{{ props.gameInfo.min_price_discount }}</template>
+							<TextSkeleton v-else class="min_price__skeleton"/>
+							<span :class="{ min_price__value:  !props.gameInfo.min_price_discount }">₽</span>
+						</span>
+					</p>
 				</div>
 
 				<button class="button_scroll" @click="handleButtonScrollClick">Смотреть предложения<span class="button_scroll_arrow">↓</span></button>
