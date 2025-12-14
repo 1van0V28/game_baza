@@ -75,15 +75,32 @@ MONTHS = {
 }
 
 # "21 авг. 2012 г."
-def normalize_date(ru_date: str) -> date|None:
-
+def normalize_date(ru_date: str) -> date | None:
     if not ru_date:
         return None
 
-    ru_date = ru_date.replace('. ', ' ').replace('г.', '')
-    day, month, year = ru_date.split()
-    print(day, month, year)
+    ru_date = ru_date.lower()
 
-    return date(int(year), MONTHS.get(month), int(day))
+    # если дата не объявлена
+    if "объяв" in ru_date or "скоро" in ru_date:
+        return None
+
+    ru_date = ru_date.replace('. ', ' ').replace('г.', '').strip()
+    parts = ru_date.split()
+
+    if len(parts) != 3:
+        return None
+
+    day, month, year = parts
+
+    if not day.isdigit() or not year.isdigit():
+        return None
+
+    month_num = MONTHS.get(month)
+    if not month_num:
+        return None
+
+    return date(int(year), month_num, int(day))
+
 
 # print(parse_russian_date("21 авг. 2012 г."))

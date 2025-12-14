@@ -7,8 +7,7 @@ from sqlalchemy.orm import sessionmaker
 db_config = config.db
 
 engine = create_engine(
-    url=db_config.DATABASE_URL_psycopg,
-    echo=True
+    url=db_config.DATABASE_URL_psycopg
 )
 
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)

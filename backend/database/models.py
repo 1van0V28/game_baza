@@ -41,7 +41,7 @@ class Publisher(Base):
     __tablename__ = "publishers"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
+    name: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
 
     # Связь с играми
     games: Mapped[list["Game"]] = relationship(back_populates="publisher")

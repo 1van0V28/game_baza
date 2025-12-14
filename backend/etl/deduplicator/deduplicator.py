@@ -33,10 +33,16 @@ class Deduplicator:
         reader = JsonReader(path)
 
         for offer in reader.stream():
-            self._add_or_update_game(offer, store_type)
+            if offer is not None:
+                self._add_or_update_game(offer, store_type)
 
     def _add_or_update_game(self, offer: dict, store_type: str):
-        norm_title = normalize_title(offer["title"])
+        title = offer.get("title")
+
+        if not title:
+            return  # пропускаем битую запись
+
+        norm_title = normalize_title(title)
         existing = self.games.get(norm_title)
 
         if existing is None:
