@@ -49,11 +49,12 @@ class GameRepository:
         if last_id > 0:
             stmt = stmt.filter(Game.id > last_id)
 
+        total = self.count(stmt)
         stmt = stmt.order_by(Game.id).limit(per_page)
 
         result = self.session.execute(stmt)
 
-        return result.scalars().all()
+        return total, result.scalars().all()
 
     def get_game(self, id: int):
         stmt = (
@@ -68,8 +69,10 @@ class GameRepository:
         result = self.session.execute(stmt).scalars().all()
         return result
 
-    def count(self):
-        return self.session.execute(select(func.count(Game.id))).scalar()
+    def count(self, stmt):
+        count_stmt = select(func.count()).select_from(stmt.subquery())
+        result = self.session.execute(count_stmt).scalar()
+        return result
 
 
 class PlatformRepository:

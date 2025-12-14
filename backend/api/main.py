@@ -73,8 +73,7 @@ def get_games(
 
     repo = GameRepository(db)
 
-    total = repo.count()
-    raw_games = repo.get_filtered(
+    total, raw_games = repo.get_filtered(
         last_id=last_id,
         per_page=per_page + 1,
         filters=filters
