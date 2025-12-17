@@ -7,13 +7,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 class DatabaseConfig(BaseSettings):
     model_config = SettingsConfigDict(
         env_prefix="DB_",
-        env_file=BASE_DIR / ".env",  # для локальной разработки
+        env_file=BASE_DIR / ".env.local",  # для локальной разработки
         env_file_encoding="utf-8",
         extra="ignore"  # игнорировать лишние переменные
     )
 
     HOST: str
-    PORT: str = "5432"
+    PORT: str
     USER: SecretStr
     PASS: SecretStr
     NAME: str

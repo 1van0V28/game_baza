@@ -37,8 +37,8 @@ class GameRepository:
             stmt = stmt.filter(Game.offers.any(Offer.store.has(Store.name.in_(filters.stores))))
 
         if filters.platforms:
-            for genre_name in filters.genres:
-                stmt = stmt.filter(Game.genres.any(Genre.name == genre_name))
+            for platform_name in filters.platforms:
+                stmt = stmt.filter(Game.platforms.any(Platform.name == platform_name))
 
         if filters.price_min:
             stmt.filter(Game.offers.any(Offer.price_discount >= filters.min_price))
