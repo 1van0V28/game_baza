@@ -4,7 +4,7 @@
 # System
 __pycache__/
 *.pyc
-.env
+.env.local
 .env.docker
 
 # Python environments
