@@ -1,0 +1,9 @@
+# Python virtual environments
+.venv/
+.python-version
+
+# Parsers output / data files
+*.jsonl
+*.csv
+*.xml
+*.sql
