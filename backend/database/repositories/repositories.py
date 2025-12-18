@@ -41,10 +41,10 @@ class GameRepository:
                 stmt = stmt.filter(Game.platforms.any(Platform.name == platform_name))
 
         if filters.price_min:
-            stmt.filter(Game.offers.any(Offer.price_discount >= filters.min_price))
+            stmt = stmt.filter(Game.offers.any(Offer.price_discount >= filters.min_price))
 
         if filters.price_max:
-            stmt.filter(Game.offers.any(Offer.price_discount <= filters.price_max))
+            stmt = stmt.filter(Game.offers.any(Offer.price_discount <= filters.price_max))
 
         if last_id > 0:
             stmt = stmt.filter(Game.id > last_id)

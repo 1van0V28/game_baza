@@ -102,5 +102,10 @@ def normalize_date(ru_date: str) -> date | None:
 
     return date(int(year), month_num, int(day))
 
+def price_to_int(price: str) -> int:
+    if price == 'Бесплатно':
+        return 0
+    price = int(re.sub(r'\D', '', price))
+    return price
 
 # print(parse_russian_date("21 авг. 2012 г."))

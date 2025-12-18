@@ -147,8 +147,8 @@ class Offer(Base):
 
     # Данные о цене
     store_game_link: Mapped[str | None] = mapped_column(String(1000), nullable=True)
-    price_original: Mapped[str | None] = mapped_column(String(1000), nullable=True)
-    price_discount: Mapped[str | None] = mapped_column(String(1000), nullable=True, index=True)
+    price_original: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    price_discount: Mapped[int | None] = mapped_column(Integer, nullable=True, index=True)
     discount_percent: Mapped[str | None] = mapped_column(String(4), nullable=True)
 
     # # Отзывы (специфично для Steam)

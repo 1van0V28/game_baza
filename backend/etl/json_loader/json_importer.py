@@ -2,7 +2,8 @@ from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy import select
 from backend.etl.json_loader.json_reader import JsonReader
 from backend.database.models import Game, Developer, Genre, Publisher, Platform, Store, Offer, Base
-from backend.utils.normalizers import normalize_date
+from backend.utils.normalizers import normalize_date, price_to_int
+
 
 class JsonImporter:
     """Импортирует данные игр из JSON в БД."""
@@ -76,12 +77,15 @@ class JsonImporter:
             session, Store, store_slug
         )
 
+        price_original = price_to_int(offer_record.get("price_original"))
+        price_discount = price_to_int(offer_record.get("price_discount"))
+
         offer = Offer(
             game_id=game_id,
             store_id=store_id,
-            price_original=offer_record.get("price_original"),
+            price_original=price_original,
             discount_percent=offer_record.get("discount_percent"),
-            price_discount=offer_record.get("price_discount"),
+            price_discount=price_discount,
             store_game_link=offer_record.get('link'),
         )
 
